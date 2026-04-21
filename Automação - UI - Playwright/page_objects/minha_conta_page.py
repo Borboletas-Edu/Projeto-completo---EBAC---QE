@@ -1,3 +1,5 @@
+from time import sleep
+
 class MinhaContaPage:
 
     def __init__(self, page):
@@ -11,12 +13,18 @@ class MinhaContaPage:
     def realizar_login(self, usuario, senha):
         self.page.locator("#username").fill(usuario)
         self.page.locator("#password").fill(senha)
-        self.page.get_by_role("button", name="login").click()
+        self.page.get_by_role("button", name="Login").click()
 
     def realizar_cadastro(self, email, senha):
         self.page.locator("#reg_email").fill(email)
         self.page.locator("#reg_password").fill(senha)
         self.page.get_by_role("button", name="register").click()
+        
+        #Evita problemas de carregamento com click falso
+        try:
+            self.page.get_by_role("button", name="register").click(timeout=1000) 
+        except:
+            pass
 
     def retornar_mensagem_alerta(self):
         return self.page.get_by_role("alert")
@@ -69,9 +77,22 @@ class MinhaContaPage:
         print("Em produção") # Campo opcional.
 
 #Detalhes da conta
-    def editar_dados_conta(self): # Deixe as variáveis de senha vazias para não preenchê-las.
-        print("Em produção") # Campo obrigatório.
-        print("Em produção") # Campo opcional.
+    def acessar_detalhes_conta(self):
+        self.page.get_by_role("link", name=" Detalhes da conta").click()
+
+    def preencher_dados_pessoais(self, primeiro_nome, ultimo_nome, nome_exibicao, email): # Deixe as variáveis de senha vazias para não preenchê-las.
+        self.page.locator("#account_first_name").fill(primeiro_nome)
+        self.page.locator("#account_last_name").fill(ultimo_nome)
+        self.page.locator("#account_display_name").fill(nome_exibicao)
+        self.page.locator("#account_email").fill(email)
+
+    def preencher_troca_senha(self, senha_atual, senha_nova, confirmar_senha_nova):
+        self.page.locator("#password_current").fill(senha_atual)
+        self.page.locator("#password_1").fill(senha_nova)
+        self.page.locator("#password_2").fill(confirmar_senha_nova)
+        
+    def salvar_alteracoes_detalhes_conta(self):
+        self.page.get_by_role("button", name="Save changes").click()
 
 #Sair
     def botao_logout(self):

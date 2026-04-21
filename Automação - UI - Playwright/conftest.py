@@ -1,14 +1,21 @@
 import pytest
 from playwright.sync_api import sync_playwright
 
+def pytest_collection_modifyitems(items):
+    for item in items:
+        if getattr(item, "originalname", None):
+            item.name = item.originalname
+        if "[" in item.nodeid:
+            item._nodeid = item.nodeid.split("[", 1)[0]
+
 @pytest.fixture
-def pagina():
+def page():
     with sync_playwright() as pw:
         navegador = pw.chromium.launch(headless=False)
         contexto = navegador.new_context(base_url="http://lojaebac.ebaconline.art.br")
-        pagina = contexto.new_page()
+        page = contexto.new_page()
 
-        yield pagina
+        yield page
 
         contexto.close()
         navegador.close()
