@@ -1,5 +1,3 @@
-from time import sleep
-
 class MinhaContaPage:
 
     def __init__(self, page):
@@ -25,9 +23,6 @@ class MinhaContaPage:
             self.page.get_by_role("button", name="register").click(timeout=1000) 
         except:
             pass
-
-    def retornar_mensagem_alerta(self):
-        return self.page.get_by_role("alert")
 
     def recuperar_senha(self, email_recuperacao):
         self.page.get_by_role("link", name="Lost your password?").click()

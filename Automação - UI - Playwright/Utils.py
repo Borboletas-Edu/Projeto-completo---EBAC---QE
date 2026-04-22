@@ -10,3 +10,6 @@ def gerar_email_unico():
 def gerar_senha_unica():
     senha = fake.password()
     return senha
+
+def retornar_mensagem_alerta(page):
+    return page.get_by_role("alert")
