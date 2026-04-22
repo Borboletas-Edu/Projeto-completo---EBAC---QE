@@ -69,5 +69,3 @@ class TesteCarrinho:
                 )
                 for tamanho, cor, quantidade in VARIACOES_PRODUTO)), "Carrinho diferente do esperado para as variações de produto"
         
-    def teste_validar_aplicacao_de_desconto_sobre_o_total_do_carrinho(self): #Deve utilizar o campo de busca
-        print("Teste em produção") 
