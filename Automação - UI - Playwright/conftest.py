@@ -11,7 +11,7 @@ def pytest_collection_modifyitems(items):
 @pytest.fixture
 def page():
     with sync_playwright() as pw:
-        navegador = pw.chromium.launch(headless=False)
+        navegador = pw.chromium.launch(headless=True)
         contexto = navegador.new_context(base_url="http://lojaebac.ebaconline.art.br")
         page = contexto.new_page()
 

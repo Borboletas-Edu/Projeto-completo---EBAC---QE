@@ -3,6 +3,12 @@ class MinhaContaPage:
     def __init__(self, page):
         self.page = page
 
+    def _selecionar_select2(self, seletor_container, valor):
+        self.page.locator(seletor_container).first.click()
+        campo_busca = self.page.locator(".select2-container--open .select2-search__field").first
+        campo_busca.fill(valor)
+        campo_busca.press("Enter")
+
 #Acessar
     def acessar_minha_conta(self):
         self.page.goto('/minha-conta')
@@ -63,13 +69,37 @@ class MinhaContaPage:
 #Downloads
 
 #Endereços
-    def editar_endereco_faturamento(self):
-        print("Em produção") # Campo obrigatório.
-        print("Em produção") # Campo opcional.
+    def acessar_endereco(self):
+        self.page.get_by_role("link", name=" Endereços").click()
 
-    def editar_endereco_entrega(self):
-        print("Em produção") # Campo obrigatório.
-        print("Em produção") # Campo opcional.
+    def editar_endereco_faturamento(self, nome, sobrenome, nome_empresa, pais, endereco, dados_extra, cep, cidade, estado, telefone, email):
+        self.page.get_by_role("link", name="Edit").nth(0).click()
+        self.page.locator("#billing_first_name").fill(nome)
+        self.page.locator("#billing_last_name").fill(sobrenome)
+        self.page.get_by_role("textbox", name="Nome da empresa (opcional)").fill(nome_empresa)
+        self._selecionar_select2("#select2-billing_country-container", pais)
+        self.page.get_by_role("textbox", name="Endereço *").fill(endereco)
+        self.page.get_by_role("textbox", name="Apartamento, suíte, unidade,").fill(dados_extra)
+        self.page.get_by_role("textbox", name="Cidade *").fill(cidade)
+        self._selecionar_select2("#select2-billing_state-container", estado)
+        self.page.get_by_role("textbox", name="CEP *").fill(cep)
+        self.page.get_by_role("textbox", name="Telefone *").fill(telefone)
+        self.page.get_by_role("textbox", name="Endereço de e-mail *").fill(email)
+        
+    def editar_endereco_entrega(self, nome, sobrenome, nome_empresa, pais, endereco, dados_extra, cep, cidade, estado):
+        self.page.get_by_role("link", name="Edit").nth(1).click()
+        self.page.locator("#shipping_first_name").fill(nome)
+        self.page.locator("#shipping_last_name").fill(sobrenome)
+        self.page.get_by_role("textbox", name="Nome da empresa (opcional)").fill(nome_empresa)
+        self._selecionar_select2("#select2-shipping_country-container", pais)
+        self.page.get_by_role("textbox", name="Endereço *").fill(endereco)
+        self.page.get_by_role("textbox", name="Apartamento, suíte, unidade,").fill(dados_extra)
+        self.page.get_by_role("textbox", name="Cidade *").fill(cidade)
+        self._selecionar_select2("#select2-shipping_state-container", estado)
+        self.page.get_by_role("textbox", name="CEP *").fill(cep)
+
+    def clicar_salvar_enderecos(self):
+        self.page.get_by_role("button", name="Salvar endereços").click()
 
 #Detalhes da conta
     def acessar_detalhes_conta(self):

@@ -6,6 +6,7 @@ Projeto de automação de testes E2E para a loja EBAC usando **Playwright + Pyte
 - Python 3.11+
 - Playwright (sync API)
 - Pytest
+- Allure (`allure-pytest` + `allure-commandline`)
 - Faker
 
 ## URL base
@@ -22,7 +23,13 @@ A suíte usa a base URL configurada em `conftest.py`:
 
 ## Instalação
 ```bash
-pip install pytest playwright Faker pytest-sugar
+pip install -r requirements.txt
+python -m playwright install chromium
+```
+
+Se você não tiver `requirements.txt`, use:
+```bash
+pip install pytest playwright allure-pytest Faker pytest-sugar
 python -m playwright install chromium
 ```
 
@@ -45,12 +52,28 @@ Rodar um arquivo específico:
 pytest testes/teste_carrinho.py
 ```
 
+## Relatório Allure
+O projeto já está configurado no `pytest.ini` para gerar resultados do Allure automaticamente a cada execução:
+- `--alluredir=allure-results`
+- `--clean-alluredir`
+
+Depois de rodar os testes (`pytest`), abra o relatório com:
+```bash
+npx allure-commandline serve allure-results
+```
+
+Se o terminal estiver no VS Code Snap e aparecer erro de `libpthread/GLIBC_PRIVATE`, use:
+```bash
+env -u SNAP -u SNAP_NAME -u SNAP_REVISION -u SNAP_ARCH -u SNAP_COOKIE -u GTK_PATH -u GTK_MODULES npx allure-commandline serve allure-results
+```
+
 ## Marcadores disponíveis
 Definidos em `pytest.ini`:
 - `login`
 - `cadastro`
 - `carrinho`
 - `detalhesConta`
+- `endereco`
 
 ## Fluxos cobertos atualmente
 - Login válido, inválido e bloqueio
@@ -60,7 +83,8 @@ Definidos em `pytest.ini`:
   - Adicionar produto único
   - Adicionar e remover produto
   - Adicionar variações múltiplas de produto
-
+  - Cadastro de endereço válido e inválido
+  
 ## Dados de teste
 As massas ficam em `dados/`:
 - `dados_login.py`

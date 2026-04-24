@@ -1,4 +1,20 @@
-node_modules
-__pycache__
-.pytest_cache
+# Dependencias
+node_modules/
+
+# Python
+__pycache__/
+.pytest_cache/
+
+# Relatorios
+cypress/videos/
+cypress/screenshots/
+playwright-report/
+test-results/
+allure-results/
+allure-report/
+
+# Ambiente local
+.env
+.env.*
+!.env.example
 .codex
