@@ -2,7 +2,6 @@
 
 class MinhaContaPage {
 
-
 //extra
 
     acessarMinhaConta() {
@@ -13,9 +12,6 @@ class MinhaContaPage {
         return cy.get('.woocommerce-error').invoke('text')
     }
 
-    sairConta(){
-        cy.get('.woocommerce-MyAccount-navigation-link--customer-logout').click()
-    }
 //login
 
     informarUsuarioLogin(usuario) {
@@ -44,6 +40,23 @@ class MinhaContaPage {
     clicarCadastrar() {
         cy.get('[name="register"]').click()
     }
-}
 
+//Pedidos
+
+
+
+//Endereços
+
+
+
+//Detalhes conta
+
+
+
+//Sair
+    sairConta(){
+        cy.get('.woocommerce-MyAccount-navigation-link--customer-logout').click()
+    } 
+      
+}
 export default new MinhaContaPage()
