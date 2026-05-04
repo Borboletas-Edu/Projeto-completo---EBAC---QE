@@ -1,6 +1,6 @@
 /// <reference types = 'cypress'/>
 
-import { enderecoEntregaValido, enderecoEntregaAusenciaCampos } from "../data/enderecosData";
+import { enderecoEntregaValido, enderecoEntregaAusenciaCampos, enderecoEntregaValoresIncorretos } from "../data/enderecosData";
 import MinhaContaFlow from "../flow/MinhaContaFlow";
 import MinhaContaPage from "../page/MinhaContaPage";
 import Utils from "../support/Utils";
@@ -27,7 +27,7 @@ describe('Testes nos endereços salvos para a conta', () => {
             dados.input.estado,
             dados.input.cep
         )
-        cy.get('.woocommerce-message').should("contain", "Endereço alterado com sucesso.")
+        cy.get('.woocommerce-notices-wrapper').should("contain", "Endereço alterado com sucesso.")
     });
 
     enderecoEntregaAusenciaCampos.forEach(dados => {
@@ -48,5 +48,22 @@ describe('Testes nos endereços salvos para a conta', () => {
         });
     });
     
+    enderecoEntregaValoresIncorretos.forEach(dados => {
+        it(`Teste - ${dados.nomeTeste}`, () => {
+            MinhaContaPage.clicarEditarEnderecoEntrega()
+            MinhaContaFlow.editarEnderecoEntrega(
+                dados.input.primeiroNome,
+                dados.input.ultimoNome,
+                dados.input.empresaNome,
+                dados.input.pais,
+                dados.input.endereco,
+                dados.input.complemento,
+                dados.input.cidade,
+                dados.input.estado,
+                dados.input.cep
+        )
+        cy.get('.woocommerce-notices-wrapper').should("contain", dados.mensagemErro)
+        });
+    });
 
 });
