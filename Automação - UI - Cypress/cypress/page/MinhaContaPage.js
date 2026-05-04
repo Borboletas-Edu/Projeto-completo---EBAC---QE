@@ -12,6 +12,16 @@ class MinhaContaPage {
         return cy.get('.woocommerce-error').invoke('text')
     }
 
+//Acessar modais
+
+    clicarDetalhesConta(){
+            cy.get('.woocommerce-MyAccount-navigation-link--edit-account > a').click()
+        }
+
+    clicarEnderecos(){
+        cy.get('.woocommerce-MyAccount-navigation-link--edit-address > a').click()
+    }
+
 //login
 
     informarUsuarioLogin(usuario) {
@@ -43,17 +53,87 @@ class MinhaContaPage {
 
 //Pedidos
 
+//Endereço - Entrega
 
+    clicarEditarEnderecoEntrega(){
+        cy.get(':nth-child(2) > .title > .edit').click()
+    }
 
-//Endereços
+    informarPrimeiroNomeEnderecoEntrega(primeiroNome){
+        cy.get('[name="shipping_first_name"]').clear()
+        if(primeiroNome){
+            cy.get('[name="shipping_first_name"]').type(primeiroNome)
+        }
+    }
 
+    informarUltimoNomeEnderecoEntrega(ultimoNome){
+        cy.get('[name="shipping_last_name"]').clear()
+        if(ultimoNome){
+            cy.get('[name="shipping_last_name"]').type(ultimoNome)
+        }
+    }
 
+    informarNomeEmpresaEnderecoEntrega(nomeEmpresa){  
+        cy.get('[name="shipping_company"]').clear()
+        if(nomeEmpresa){
+            cy.get('[name="shipping_company"]').type(nomeEmpresa)
+        }
+    }
+
+    informarPaisEnderecoEntrega(pais){
+        if(pais){
+        cy.get('#select2-shipping_country-container').click()
+        cy.get('.select2-search__field').type(pais)
+        cy.contains('.select2-results__option', pais).click()   
+        }   
+    }
+
+    informarEnderecoEntrega(endereco){
+        cy.get('[name="shipping_address_1"]').clear()
+        if(endereco){
+            cy.get('[name="shipping_address_1"]').type(endereco)
+        }   
+    }
+
+    informarComplementoEnderecoEntrega(complemento){
+        cy.get('[name="shipping_address_2"]').clear()
+        if(complemento){
+            cy.get('[name="shipping_address_2"]').type(complemento)
+        }   
+    }
+
+    informarCidadeEnderecoEntrega(cidade){
+        cy.get('[name="shipping_city"]').clear()
+        if(cidade){
+            cy.get('[name="shipping_city"]').type(cidade)
+        }   
+    }
+
+    informarEstadoEnderecoEntrega(estado){
+        if(estado){
+            cy.get('#select2-shipping_state-container').click()
+            cy.get('.select2-search__field').type(estado)
+            cy.contains('.select2-results__option', estado).click()   
+        }   
+    }
+
+    informarCepEnderecoEntrega(CEP){
+        cy.get('[name="shipping_postcode"]').clear()
+        if(CEP){
+            cy.get('[name="shipping_postcode"]').type(CEP)
+        }   
+    }
+    
+    clicarSalvarEnderecoEntrega(){
+        cy.get('[name="save_address"]').click()
+    }
+
+//Endereço - Faturamento
+    clicarEditarEnderecoFaturamento(){
+            cy.get(':nth-child(1) > .title > .edit').click()
+        }
 
 //Detalhes conta
-
-    clicarDetalhesConta(){
-        cy.get('.woocommerce-MyAccount-navigation-link--edit-account > a').click()
-    }
 
     informarPrimeiroNomeDetalhesConta(primeiroNome){
         cy.get('[name="account_first_name"]').clear()
@@ -114,4 +194,5 @@ class MinhaContaPage {
     } 
       
 }
+
 export default new MinhaContaPage()

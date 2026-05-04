@@ -5,7 +5,7 @@ import MinhaContaFlow from "../flow/MinhaContaFlow";
 import MinhaContaPage from "../page/MinhaContaPage";
 import Utils from "../support/Utils";
 
-describe('Testes no cadastro de clientes', () => {
+describe('Testes no login', () => {
     let email
     let senha
     let emailErrado

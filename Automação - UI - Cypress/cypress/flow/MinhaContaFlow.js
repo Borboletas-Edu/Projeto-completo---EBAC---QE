@@ -35,6 +35,22 @@ class MinhaContaFlow {
         MinhaContaPage.informarConfirmarSenha(senhaNovaConfirmacao)
         MinhaContaPage.clicarSalvarAlteracoesDetalhesConta()
     }
+
+    editarEnderecoEntrega(primeiroNome, ultimoNome, empresaNome, pais, endereco, complemento, cidade, estado, cep){
+        MinhaContaPage.informarPrimeiroNomeEnderecoEntrega(primeiroNome)
+        MinhaContaPage.informarUltimoNomeEnderecoEntrega(ultimoNome)
+        MinhaContaPage.informarNomeEmpresaEnderecoEntrega(empresaNome)
+        MinhaContaPage.informarPaisEnderecoEntrega(pais)
+        MinhaContaPage.informarEnderecoEntrega(endereco)
+        MinhaContaPage.informarComplementoEnderecoEntrega(complemento)
+        MinhaContaPage.informarCidadeEnderecoEntrega(cidade)
+        MinhaContaPage.informarEstadoEnderecoEntrega(estado)
+        MinhaContaPage.informarCepEnderecoEntrega(cep)
+        MinhaContaPage.clicarSalvarEnderecoEntrega()
+    }
+
+    
+
 }
 
 export default new MinhaContaFlow()

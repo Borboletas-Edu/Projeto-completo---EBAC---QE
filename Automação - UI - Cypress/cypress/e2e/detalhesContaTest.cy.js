@@ -5,7 +5,7 @@ import MinhaContaFlow from "../flow/MinhaContaFlow";
 import MinhaContaPage from "../page/MinhaContaPage";
 import Utils from "../support/Utils";
 
-describe('Testes em detalhes da conta', () => {
+describe('Testes nos detalhes da conta', () => {
     
     beforeEach(() => {
         MinhaContaPage.acessarMinhaConta() 

@@ -1,0 +1,33 @@
+/// <reference types = 'cypress'/>
+
+import { enderecoEntregaValido } from "../data/enderecosData";
+import MinhaContaFlow from "../flow/MinhaContaFlow";
+import MinhaContaPage from "../page/MinhaContaPage";
+import Utils from "../support/Utils";
+
+describe('Testes nos endereços salvos para a conta', () => {
+    
+    beforeEach(() => {
+        MinhaContaPage.acessarMinhaConta()
+        MinhaContaFlow.realizarCadastro(Utils.criarEmail(), Utils.criarSenha())
+        MinhaContaPage.clicarEnderecos()    
+    });
+
+    it('Teste - Atualizar endereço de entrega com dados validos', () => {
+        const dados = enderecoEntregaValido
+        MinhaContaPage.clicarEditarEnderecoEntrega()
+        MinhaContaFlow.editarEnderecoEntrega(
+            dados.input.primeiroNome,
+            dados.input.ultimoNome,
+            dados.input.empresaNome,
+            dados.input.pais,
+            dados.input.endereco,
+            dados.input.complemento,
+            dados.input.cidade,
+            dados.input.estado,
+            dados.input.cep
+        )
+        cy.get('.woocommerce-message').should("contain", "Endereço alterado com sucesso.")
+    });
+
+});
