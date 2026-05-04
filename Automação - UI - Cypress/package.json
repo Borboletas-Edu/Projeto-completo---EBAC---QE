@@ -4,13 +4,22 @@
   "main": "index.js",
   "scripts": {
     "test": "cypress run",
-    "open": "cypress open"
+    "open": "cypress open",
+    "cy:run": "cypress run",
+    "report:clean": "rm -rf cypress/reports",
+    "report:merge": "mochawesome-merge cypress/reports/mocha/*.json > cypress/reports/report.json",
+    "report:html": "marge cypress/reports/report.json -f report -o cypress/reports/html",
+    "test:report": "npm run report:clean && npm run cy:run && npm run report:merge && npm run report:html"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
     "@faker-js/faker": "^10.4.0",
-    "cypress": "^15.14.0"
+    "cypress": "^15.14.0",
+    "mocha-junit-reporter": "^2.2.1",
+    "mochawesome": "^7.1.4",
+    "mochawesome-merge": "^4.4.1",
+    "mochawesome-report-generator": "^6.3.2"
   }
 }

@@ -1,20 +1,39 @@
 # Dependencias
-node_modules/
+**/node_modules/
 
 # Python
-__pycache__/
-.pytest_cache/
+**/__pycache__/
+**/.pytest_cache/
+**/.venv/
+**/venv/
+**/.mypy_cache/
+**/.ruff_cache/
 
-# Relatorios
-cypress/videos/
-cypress/screenshots/
-playwright-report/
-test-results/
-allure-results/
-allure-report/
+# Relatorios e artefatos de testes
+**/cypress/reports/
+**/cypress/screenshots/
+**/playwright-report/
+**/test-results/
+**/allure-results/
+**/allure-report/
+**/coverage/
+**/.nyc_output/
+
+# Logs
+**/*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Ambiente local
 .env
 .env.*
 !.env.example
 .codex
+
+# IDE / sistema
+**/.idea/
+**/.vscode/
+**/*.iml
+.DS_Store
+Thumbs.db

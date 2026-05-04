@@ -25,6 +25,16 @@ class MinhaContaFlow {
 
     }
 
+    editarDetalhesConta(primeiroNome, ultimoNome, nomeExibicao, email, senhaAtual, senhaNova, senhaNovaConfirmacao){
+        MinhaContaPage.informarPrimeiroNomeDetalhesConta(primeiroNome)
+        MinhaContaPage.informarUltimoNomeDetalhesConta(ultimoNome)
+        MinhaContaPage.informarNomeExibicaoDetalhesConta(nomeExibicao)
+        MinhaContaPage.informarEmailDetalhesConta(email)
+        MinhaContaPage.informarSenhaAtualDetalhesConta(senhaAtual)
+        MinhaContaPage.informarNovaSenhaDetalhesConta(senhaNova)
+        MinhaContaPage.informarConfirmarSenha(senhaNovaConfirmacao)
+        MinhaContaPage.clicarSalvarAlteracoesDetalhesConta()
+    }
 }
 
 export default new MinhaContaFlow()
