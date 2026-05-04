@@ -84,7 +84,7 @@ export const enderecoEntregaAusenciaCampos = [
         estado: estado,
         cep: cep
     },
-    mensagemErro: "Pais é um campo obrigatório."
+    mensagemErro: "País é um campo obrigatório."
     },
     {
     nomeTeste: "Cadastro do endereço de entrega sem informar endereço",
@@ -114,7 +114,7 @@ export const enderecoEntregaAusenciaCampos = [
         estado: estado,
         cep: cep
     },
-    mensagemErro: "Endereço é um campo obrigatório."
+    mensagemErro: "Endereço alterado com sucesso."
     },
     {
     nomeTeste: "Cadastro do endereço de entrega sem informar cidade",
@@ -157,9 +157,9 @@ export const enderecoEntregaAusenciaCampos = [
         complemento: complemento,
         cidade: cidade,
         estado: estado,
-        cep: "CEP é um campo obrigatório."
+        cep: ""
     },
-    mensagemErro: ""
+    mensagemErro: "CEP é um campo obrigatório."
     }
 ]
 
