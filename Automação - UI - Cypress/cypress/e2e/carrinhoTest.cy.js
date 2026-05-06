@@ -52,7 +52,7 @@ describe('Testes na adição de produtos ao carrinho', () => {
         })
     });
 
-    it.only('Teste - Adicionar, remover e restaurar item do carrinho', () => {
+    it('Teste - Adicionar, remover e restaurar item do carrinho', () => {
         const produto = adicionar_produto_carrinho
         DetalhesProdutoFlow.adicionarProdutoCarrinho(produto.nomeProduto, produto.input.tamanho, produto.input.cor, produto.input.quantidade)
         DetalhesProdutoPage.clicarIrParaCarrinho()
