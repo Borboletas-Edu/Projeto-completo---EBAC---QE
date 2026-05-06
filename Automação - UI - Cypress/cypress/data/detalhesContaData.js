@@ -95,7 +95,7 @@ export const detalhes_pessoais_invalidos = [
         email: Utils.criarEmail(),
         senhaAtual: "",
         senhaNova: senhaNova,
-        senhaNovaConfirmacao: ""
+        senhaNovaConfirmacao: senhaNova
     },
     mensagemErro: "Digite sua senha atual."
     },
@@ -108,7 +108,7 @@ export const detalhes_pessoais_invalidos = [
         email: Utils.criarEmail(),
         senhaAtual: "SenhaErrada01",
         senhaNova: senhaNova,
-        senhaNovaConfirmacao: ""
+        senhaNovaConfirmacao: senhaNova
     },
     mensagemErro: "Sua senha atual está incorreta."
     },
@@ -121,7 +121,7 @@ export const detalhes_pessoais_invalidos = [
         email: Utils.criarEmail(),
         senhaAtual: senhaAtual,
         senhaNova: "",
-        senhaNovaConfirmacao: ""
+        senhaNovaConfirmacao: senhaNova
     },
     mensagemErro: "As novas senhas não são iguais."
     },
@@ -139,7 +139,7 @@ export const detalhes_pessoais_invalidos = [
     mensagemErro: "Informe sua senha novamente."
     },
     {
-    nomeTeste: "Atualizar dados pessoas sem informar senh nova e confirmação",
+    nomeTeste: "Atualizar dados pessoas sem informar senha nova e confirmação",
     input: {
         primeiroNome: primeiroNome,
         ultimoNome: ultimoNome,

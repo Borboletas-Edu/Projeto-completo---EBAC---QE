@@ -49,7 +49,20 @@ class MinhaContaFlow {
         MinhaContaPage.clicarSalvarEnderecoEntrega()
     }
 
-    
+    editarEnderecoFaturamento(primeiroNome, ultimoNome, empresaNome, pais, endereco, complemento, cidade, estado, cep, telefone, email){
+        MinhaContaPage.informarPrimeiroNomeEnderecoFaturamento(primeiroNome)
+        MinhaContaPage.informarUltimoNomeEnderecoFaturamento(ultimoNome)
+        MinhaContaPage.informarNomeEmpresaEnderecoFaturamento(empresaNome)
+        MinhaContaPage.informarPaisEnderecoFaturamento(pais)
+        MinhaContaPage.informarEnderecoFaturamento(endereco)
+        MinhaContaPage.informarComplementoEnderecoFaturamento(complemento)
+        MinhaContaPage.informarCidadeEnderecoFaturamento(cidade)
+        MinhaContaPage.informarEstadoEnderecoFaturamento(estado)
+        MinhaContaPage.informarCepEnderecoFaturamento(cep)
+        MinhaContaPage.informarTelefoneEnderecoFaturamento(telefone)
+        MinhaContaPage.informarEmailEnderecoFaturamento(email)
+        MinhaContaPage.clicarSalvarEnderecoFaturamento()
+    }
 
 }
 

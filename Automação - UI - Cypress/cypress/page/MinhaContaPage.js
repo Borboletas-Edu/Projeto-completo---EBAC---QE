@@ -133,6 +133,89 @@ class MinhaContaPage {
             cy.get(':nth-child(1) > .title > .edit').click()
         }
 
+    informarPrimeiroNomeEnderecoFaturamento(primeiroNome){
+        cy.get('[name="billing_first_name"]').clear()
+        if(primeiroNome){
+            cy.get('[name="billing_first_name"]').type(primeiroNome)
+        }
+    }
+
+    informarUltimoNomeEnderecoFaturamento(ultimoNome){
+        cy.get('[name="billing_last_name"]').clear()
+        if(ultimoNome){
+            cy.get('[name="billing_last_name"]').type(ultimoNome)
+        }
+    }
+
+    informarNomeEmpresaEnderecoFaturamento(nomeEmpresa){  
+        cy.get('[name="billing_company"]').clear()
+        if(nomeEmpresa){
+            cy.get('[name="billing_company"]').type(nomeEmpresa)
+        }
+    }
+
+    informarPaisEnderecoFaturamento(pais){
+        if(pais){
+        cy.get('#select2-billing_country-container').click()
+        cy.get('.select2-search__field').type(pais)
+        cy.contains('.select2-results__option', pais).click()   
+        }   
+    }
+
+    informarEnderecoFaturamento(endereco){
+        cy.get('[name="billing_address_1"]').clear()
+        if(endereco){
+            cy.get('[name="billing_address_1"]').type(endereco)
+        }   
+    }
+
+    informarComplementoEnderecoFaturamento(complemento){
+        cy.get('[name="billing_address_2"]').clear()
+        if(complemento){
+            cy.get('[name="billing_address_2"]').type(complemento)
+        }   
+    }
+
+    informarCidadeEnderecoFaturamento(cidade){
+        cy.get('[name="billing_city"]').clear()
+        if(cidade){
+            cy.get('[name="billing_city"]').type(cidade)
+        }   
+    }
+
+    informarEstadoEnderecoFaturamento(estado){
+        if(estado){
+            cy.get('#select2-billing_state-container').click()
+            cy.get('.select2-search__field').type(estado)
+            cy.contains('.select2-results__option', estado).click()   
+        }   
+    }
+
+    informarCepEnderecoFaturamento(CEP){
+        cy.get('[name="billing_city"]').clear()
+        if(CEP){
+            cy.get('[name="billing_city"]').type(CEP)
+        }   
+    }
+    
+    informarTelefoneEnderecoFaturamento(telefone){
+        cy.get('[name="billing_phone"]').clear()
+        if(telefone){
+            cy.get('[name="billing_phone"]').type(telefone)
+        }   
+    }
+
+    informarEmailEnderecoFaturamento(email){
+        cy.get('[name="billing_phone"]').clear()
+        if(email){
+            cy.get('[name="billing_phone"]').type(email)
+        }   
+    }
+
+    clicarSalvarEnderecoFaturamento(){
+        cy.get('[name="save_address"]').click()
+    }
+
 //Detalhes conta
 
     informarPrimeiroNomeDetalhesConta(primeiroNome){
