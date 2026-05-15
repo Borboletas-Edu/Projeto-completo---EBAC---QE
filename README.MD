@@ -11,8 +11,8 @@ Este repositório tem como objetivo sintetizar, em diversas tarefas, grande part
 
 ## O que este repositório contém
 
-- `Automação - API - Cypress`: exercícios e implementações de automação de testes de API com Cypress.
-- `Automação - API - Pytest`: exercícios e implementações de automação de testes de API com Pytest.
+- `Automação - API - Cypress`: implementações de automação de testes de API com Cypress.
+- `Automação - API - Pytest`: implementações de automação de testes de API com Pytest.
 - `Automação - Mobile - android`: materiais e práticas de automação de testes mobile para Android.
 - `Automação - UI - Cypress`: testes de interface (UI) com Cypress.
 - `Automação - UI - Playwright`: testes de interface (UI) com Playwright.
