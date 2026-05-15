@@ -71,3 +71,4 @@ npm run test:cadastro:stress
 
 - Com a adoção de variáveis de ambiente (`.env`), o projeto pode escalar para execução em múltiplos ambientes (ex.: `dev`, `hml`, `prod`) sem alterar os arquivos de teste.
 - A criação de uma camada dedicada de coleta de token (e reutilização controlada) permite construir cenários mais complexos, com autenticação desacoplada do fluxo principal de carga.
+- Com o escalar do projeto, ele pode ser integrado ao Grafana para geração de relatórios e acompanhamento contínuo dos indicadores de performance.

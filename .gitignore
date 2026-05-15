@@ -27,9 +27,9 @@ yarn-error.log*
 
 # Ambiente local
 .env
-.env.*
 !.env.example
 .codex
+.agent
 
 # IDE / sistema
 **/.idea/
