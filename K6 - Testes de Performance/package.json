@@ -1,0 +1,16 @@
+{
+  "name": "k6-testes-performance",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test:cadastro:load": "k6 run tests/load/cadastroLoad.js",
+    "test:cadastro:spike": "k6 run tests/spike/cadastroSpike.js",
+    "test:cadastro:stress": "k6 run tests/stress/cadastroStress.js",
+    "test:login:load": "k6 run tests/load/loginLoad.js",
+    "test:login:spike": "k6 run tests/spike/loginSpike.js",
+    "test:login:stress": "k6 run tests/stress/loginStress.js"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^10.4.0"
+  }
+}
