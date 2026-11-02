@@ -45,15 +45,37 @@ Esquema do Cenário: Validação de erro ao cadastrar cupom
         | DESC30 | abc    | fixed_product | Cupom teste | Valor inválido            |
         | DESC40 | 10     | invalido      | Cupom teste | Tipo de desconto inválido |
 
-Cenário: Não permitir cadastro de cupons com ID igual
+Cenário: Não permitir cadastro de cupons com código repetido
+    Dado que já exista um cupom cadastrado com o código "DESC10"
+    Quando eu realizar uma requisição POST para "/wc/v3/coupons" com o código "DESC10"
+    Então o status da resposta deve ser 400
+    E deve retornar o código de erro "woocommerce_rest_coupon_code_already_exists"
 
 Cenário: Listar todos cupons
+    Dado que existam cupons cadastrados
+    Quando eu realizar uma requisição GET para "/wc/v3/coupons"
+    Então o status da resposta deve ser 200
+    E a resposta deve ser uma lista de cupons
+    E cada cupom deve seguir o contrato definido
 
 Cenário: Listar cupom com ID válido
+    Dado que exista um cupom cadastrado
+    Quando eu realizar uma requisição GET para "/wc/v3/coupons/{id}" com o ID desse cupom
+    Então o status da resposta deve ser 200
+    E o cupom retornado deve ter o mesmo ID informado
 
 Cenário: Listar cupom com ID inválido
+    Quando eu realizar uma requisição GET para "/wc/v3/coupons/999999999"
+    Então o status da resposta deve ser 404
+    E deve retornar o código de erro "woocommerce_rest_shop_coupon_invalid_id"
 
 Cenário: Editar cupom com ID válido
+    Dado que exista um cupom cadastrado
+    Quando eu realizar uma requisição PUT para "/wc/v3/coupons/{id}" com a descrição "Cupom editado"
+    Então o status da resposta deve ser 200
+    E a descrição do cupom deve ser "Cupom editado"
 
 Cenário: Editar cupom com ID inválido
-
+    Quando eu realizar uma requisição PUT para "/wc/v3/coupons/999999999"
+    Então o status da resposta deve ser 404
+    E deve retornar o código de erro "woocommerce_rest_shop_coupon_invalid_id"

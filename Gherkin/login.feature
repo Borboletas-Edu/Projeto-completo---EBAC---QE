@@ -19,6 +19,27 @@ Cenário: Bloqueio de acesso após multiplas tentativas
     Então a plataforma deve exibir uma mensagem de alerta
     E bloquear novas tentativas por 15 minutos. 
 
+Cenário: Não permitir login de usuário inativo
+    Dado que o usuário "inativo" esteja desativado na plataforma
+    Quando informar o usuario "inativo"
+    E informar a senha correta desse usuário
+    Então o login não deve ser realizado
+    E a plataforma deve exibir uma mensagem de erro
+
+Cenário: Manter o bloqueio durante os 15 minutos
+    Dado que o usuário "admin" tenha errado a senha 3 vezes
+    Quando eu informar o usuario "admin"
+    E informar a senha correta "admin123" antes de 15 minutos
+    Então o login não deve ser realizado
+    E a plataforma deve informar que o acesso está bloqueado
+
+Cenário: Liberar o login após o período de bloqueio
+    Dado que o usuário "admin" tenha errado a senha 3 vezes
+    E que tenham se passado 15 minutos
+    Quando eu informar o usuario "admin"
+    E informar a senha correta "admin123"
+    Então o login deve ser registrado como valido
+
 Esquema do Cenário: Autenticação com credenciais invalidas
     Quando informar o <usuario>
     E informar a <senha>

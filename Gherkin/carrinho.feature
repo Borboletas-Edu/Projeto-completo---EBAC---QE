@@ -24,9 +24,9 @@ Cenário: Não permitir adicionar item indisponível ao carrinho
     Quando eu tentar adicionar um item indisponível ao carrinho
     Então o botão de adicionar deve ficar desabilitado
 
-Esquema do Cenário: Adicinar itens ao carrinho
+Esquema do Cenário: Adicionar itens ao carrinho
     Quando eu adicionar <quantidade> itens ao carrinho
-    Então o carrinho deve conter <quantidae> item(ns)
+    Então o carrinho deve conter <quantidade> item(ns)
     
     Exemplos:
         | quantidade |
@@ -61,3 +61,24 @@ Esquema do Cenário: Aplicação de desconto conforme valor do carrinho
         | 600   | 10       | 540         |
         | 601   | 15       | 510.85      |
         | 1000  | 15       | 850         |
+
+Esquema do Cenário: Limite de itens do mesmo produto no carrinho
+    Quando eu adicionar <quantidade> unidades do mesmo produto ao carrinho
+    Então o carrinho deve <resultado>
+
+    Exemplos:
+        | quantidade | resultado                                          |
+        | 9          | aceitar a quantidade                               |
+        | 10         | aceitar a quantidade                               |
+        | 11         | recusar a quantidade e exibir mensagem de limite   |
+
+Esquema do Cenário: Limite de valor total do carrinho
+    Dado que o valor total do carrinho seja <valor>
+    Quando eu tentar concluir a compra
+    Então o carrinho deve <resultado>
+
+    Exemplos:
+        | valor  | resultado                                           |
+        | 989.99 | aceitar o valor                                     |
+        | 990.00 | aceitar o valor                                     |
+        | 990.01 | recusar o valor e exibir mensagem de limite         |

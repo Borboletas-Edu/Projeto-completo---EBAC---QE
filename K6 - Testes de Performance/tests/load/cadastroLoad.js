@@ -2,10 +2,10 @@ import Request from "../../utils/Request.js";
 import { check } from "k6";
 
 export const options = {
+  // Requisito do TCC: 20 usuários virtuais, 2 minutos de execução e rampup de 20 segundos
   stages: [
-    {duration: '5s', target: 20},
     {duration: '20s', target: 20},
-    {duration: '10s', target: 10},
+    {duration: '1m40s', target: 20},
   ]
 };
 

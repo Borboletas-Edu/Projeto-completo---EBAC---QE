@@ -1,6 +1,13 @@
-# Automação de API com Pytest - Endpoint de Cupom
+# Automação API - Pytest (Python)
 
-Projeto de testes automatizados de API para validação do endpoint de cupons do WooCommerce (`/wc/v3/coupons`) utilizando `pytest`, `requests` e relatório com `Allure`.
+Projeto de testes automatizados de API para validação do endpoint de cupons do WooCommerce (`/wc/v3/coupons`) usando **Pytest + Requests**, com relatório **Allure**.
+
+## Stack
+- Python 3.10+
+- Pytest
+- Requests
+- python-dotenv
+- Allure (`allure-pytest` + `allure-commandline`)
 
 ## Objetivo
 
@@ -29,6 +36,7 @@ Validar cenários de cadastro de cupom, cobrindo casos positivos e negativos, co
 
 - Python 3.10+
 - `pip`
+- Node.js (para abrir o relatório Allure com `npx`)
 - Java (necessário para abrir relatório Allure localmente)
 
 ## Dependências
@@ -76,23 +84,28 @@ pytest Teste/coupom/test_coupom.py
 ```
 
 ## Relatório Allure
-
-O `pytest.ini` já está configurado com:
-
+O projeto já está configurado no `pytest.ini` para gerar resultados do Allure automaticamente a cada execução:
 - `--alluredir=allure-results`
 - `--clean-alluredir`
 
-Após rodar os testes, para abrir o relatório:
-
+Depois de rodar os testes (`pytest`), abra o relatório com:
 ```bash
-allure serve allure-results
+npx allure-commandline serve allure-results
 ```
 
-Se preferir gerar versão estática:
-
+Para gerar uma versão estática:
 ```bash
-allure generate allure-results -o allure-report --clean
+npx allure-commandline generate allure-results -o allure-report --clean
 ```
+
+Se o terminal estiver no VS Code Snap e aparecer erro de `libpthread/GLIBC_PRIVATE`, use:
+```bash
+env -u SNAP -u SNAP_NAME -u SNAP_REVISION -u SNAP_ARCH -u SNAP_COOKIE -u GTK_PATH -u GTK_MODULES npx allure-commandline serve allure-results
+```
+
+## Marcadores disponíveis
+Definidos em `pytest.ini`:
+- `ApiCupom`
 
 ## Cenários Cobertos
 

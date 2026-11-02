@@ -37,3 +37,6 @@ yarn-error.log*
 **/*.iml
 .DS_Store
 Thumbs.db
+
+# Relatórios do Supertest (jest-html-reporters)
+**/reports/
