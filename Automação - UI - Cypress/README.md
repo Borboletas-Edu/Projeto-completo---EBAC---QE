@@ -122,9 +122,19 @@ Contém os testes finais com asserções, mantendo foco no comportamento esperad
 
 No `cypress.config.js`:
 
-- `baseUrl`: `http://lojaebac.ebaconline.art.br/`
+- `baseUrl`: lida da variável de ambiente `BASE_URL` (ver "Variáveis de ambiente" abaixo)
 - Reporter: `mochawesome`
 - Diretório de saída de relatório: `cypress/reports/mocha`
+
+## Variáveis de ambiente
+
+Copie `.env.example` para `.env` (não versionado) e preencha:
+
+```env
+BASE_URL=http://lojaebac.ebaconline.art.br   # URL base da loja
+```
+
+O `cypress.config.js` carrega o `.env` com `dotenv` e falha com mensagem clara se `BASE_URL` não estiver definida.
 
 ## Como executar localmente
 

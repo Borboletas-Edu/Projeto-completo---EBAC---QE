@@ -1,3 +1,4 @@
+import { baseUrl } from "../../config/env.js";
 import { usuariosLogin } from "../../data/loginPayload.js";
 import Request from "../../utils/Request.js";
 import { check } from "k6";
@@ -12,7 +13,7 @@ export const options = {
   ]
 };
 
-const url = "http://lojaebac.ebaconline.art.br/public/authUser";
+const url = `${baseUrl}/public/authUser`;
 
 export default function () {
   const user = usuariosLogin()

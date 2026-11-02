@@ -31,7 +31,7 @@ Projeto de testes automatizados de API para o endpoint de cupons (`/wc/v3/coupon
 │   └── validarContrato.js
 ├── jest.config.js
 ├── package.json
-└── .env.exemple
+└── .env.example
 ```
 
 ## Pré-requisitos
@@ -47,7 +47,7 @@ npm install
 
 ## Configuração de Ambiente
 
-1. Copie o arquivo `.env.exemple` para `.env` na raiz desta pasta.
+1. Copie o arquivo `.env.example` para `.env` na raiz desta pasta.
 2. Preencha as variáveis:
 
 ```env

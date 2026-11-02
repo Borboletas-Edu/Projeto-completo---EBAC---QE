@@ -1,0 +1,204 @@
+name: QA - Testes automatizados
+
+# Execução manual: Actions > "QA - Testes automatizados" > Run workflow.
+# Os jobs rodam em sequência (E2E -> API -> K6) e cada um executa mesmo que o anterior tenha falhado.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  # Python 3.12 e Node 22 (LTS) são versões estáveis, com suporte longo e compatíveis com as dependências dos projetos.
+  PYTHON_VERSION: "3.12"
+  NODE_VERSION: "22"
+
+jobs:
+  # ---------- 1) E2E ----------
+  playwright:
+    name: E2E - Playwright
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: "Automação - UI - Playwright"
+    env:
+      BASE_URL: ${{ secrets.BASE_URL }}
+      UI_USUARIO: ${{ secrets.UI_USUARIO }}
+      UI_SENHA: ${{ secrets.UI_SENHA }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: "Automação - UI - Playwright/requirements.txt"
+      - run: pip install -r requirements.txt
+      - run: python -m playwright install --with-deps chromium
+      - run: pytest
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-allure-results
+          path: "Automação - UI - Playwright/allure-results"
+          if-no-files-found: ignore
+
+  cypress:
+    name: E2E - Cypress
+    needs: playwright
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: "Automação - UI - Cypress"
+    env:
+      BASE_URL: ${{ secrets.BASE_URL }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: "Automação - UI - Cypress/package-lock.json"
+      - run: npm ci
+      - run: npm run report:clean
+      - run: npx cypress run --browser chrome
+      - name: Gerar relatório HTML (mochawesome)
+        if: ${{ !cancelled() }}
+        run: |
+          npm run report:merge
+          npm run report:html
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: cypress-reports
+          path: |
+            Automação - UI - Cypress/cypress/reports
+            Automação - UI - Cypress/cypress/screenshots
+            Automação - UI - Cypress/cypress/videos
+          if-no-files-found: ignore
+
+  # ---------- 2) API ----------
+  supertest:
+    name: API - Supertest
+    needs: cypress
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: "Automação - API - Supertest"
+    env:
+      BASE_URL: ${{ secrets.API_BASE_URL }}
+      USER_EMAIL: ${{ secrets.USER_EMAIL }}
+      USER_SENHA: ${{ secrets.USER_SENHA }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: "Automação - API - Supertest/package-lock.json"
+      - run: npm ci
+      - run: npm test
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: supertest-reports
+          path: "Automação - API - Supertest/reports"
+          if-no-files-found: ignore
+
+  pytest-api:
+    name: API - Pytest
+    needs: supertest
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: "Automação - API - Pytest"
+    env:
+      BASE_URL: ${{ secrets.API_BASE_URL }}
+      USER_EMAIL: ${{ secrets.USER_EMAIL }}
+      USER_SENHA: ${{ secrets.USER_SENHA }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: "Automação - API - Pytest/requirements.txt"
+      - run: pip install -r requirements.txt
+      - run: pytest
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: pytest-api-allure-results
+          path: "Automação - API - Pytest/allure-results"
+          if-no-files-found: ignore
+
+  # ---------- 3) Performance ----------
+  k6:
+    name: Performance - K6
+    needs: pytest-api
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: "K6 - Testes de Performance"
+    env:
+      BASE_URL: ${{ secrets.BASE_URL }}
+      K6_USUARIOS: ${{ secrets.K6_USUARIOS }}
+      K6_SENHA: ${{ secrets.K6_SENHA }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: grafana/setup-k6-action@v1
+      - run: mkdir -p reports
+      # Cada fluxo roda mesmo que o anterior tenha falhado.
+      - name: Cadastro - load
+        run: npm run test:cadastro:load
+      - name: Cadastro - spike
+        if: ${{ !cancelled() }}
+        run: npm run test:cadastro:spike
+      - name: Cadastro - stress
+        if: ${{ !cancelled() }}
+        run: npm run test:cadastro:stress
+      - name: Login - load
+        if: ${{ !cancelled() }}
+        run: npm run test:login:load
+      - name: Login - spike
+        if: ${{ !cancelled() }}
+        run: npm run test:login:spike
+      - name: Login - stress
+        if: ${{ !cancelled() }}
+        run: npm run test:login:stress
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: k6-reports
+          path: "K6 - Testes de Performance/reports"
+          if-no-files-found: ignore
+
+  # ---------- Resultado geral ----------
+  resumo:
+    name: Resultado geral
+    needs: [playwright, cypress, supertest, pytest-api, k6]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verificar resultado dos jobs
+        env:
+          RESULTADOS: |
+            Playwright=${{ needs.playwright.result }}
+            Cypress=${{ needs.cypress.result }}
+            Supertest=${{ needs.supertest.result }}
+            Pytest API=${{ needs.pytest-api.result }}
+            K6=${{ needs.k6.result }}
+        run: |
+          echo "$RESULTADOS"
+          if echo "$RESULTADOS" | grep -v '^$' | grep -vE '=success$' | grep -q .; then
+            echo "Há jobs que não terminaram com sucesso."
+            exit 1
+          fi

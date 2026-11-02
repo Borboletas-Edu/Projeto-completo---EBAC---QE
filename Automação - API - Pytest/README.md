@@ -42,12 +42,12 @@ Validar cenários de cadastro de cupom, cobrindo casos positivos e negativos, co
 ## Dependências
 
 ```bash
-pip install pytest requests python-dotenv allure-pytest
+pip install -r requirements.txt
 ```
 
 ## Configuração de Ambiente
 
-1. Crie o arquivo `.env` na raiz do projeto (ou copie de `.env.exemple`):
+1. Crie o arquivo `.env` na raiz do projeto (ou copie de `.env.example`):
 
 2. Preencha as variáveis:
 

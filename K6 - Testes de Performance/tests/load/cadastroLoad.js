@@ -1,3 +1,4 @@
+import { baseUrl } from "../../config/env.js";
 import Request from "../../utils/Request.js";
 import { check } from "k6";
 
@@ -9,7 +10,7 @@ export const options = {
   ]
 };
 
-const url = "http://lojaebac.ebaconline.art.br/public/addUser";
+const url = `${baseUrl}/public/addUser`;
 
 export default function () {
   const unique = `${__VU}_${__ITER}_${Date.now()}`;

@@ -8,14 +8,27 @@ Projeto de testes de performance para a loja EBAC usando **K6**, cobrindo os flu
 - K6 Web Dashboard (relatório HTML nativo do K6)
 - Faker (`@faker-js/faker`)
 
-## URL base
-Os cenários usam a API da loja configurada em cada script:
-- `http://lojaebac.ebaconline.art.br`
+## Variáveis de ambiente
+Os scripts leem as variáveis via `config/env.js` (`__ENV`). Veja `.env.example`:
+
+| Variável | Uso |
+|---|---|
+| `BASE_URL` | URL base da loja (ex.: `http://lojaebac.ebaconline.art.br`) |
+| `K6_USUARIOS` | usuários de login separados por vírgula (usados em rodízio) |
+| `K6_SENHA` | senha dos usuários acima |
+
+O K6 não carrega `.env` sozinho. Localmente, exporte as variáveis antes de rodar:
+```bash
+set -a; source .env; set +a
+npm run test:login:load
+```
 
 ## Estrutura
 
 ```text
 .
+├── config/
+│   └── env.js
 ├── data/
 │   └── loginPayload.js
 ├── tests/
@@ -31,6 +44,7 @@ Os cenários usam a API da loja configurada em cada script:
 ├── reports/            # relatórios HTML gerados a cada execução
 ├── utils/
 │   └── Request.js
+├── .env.example
 └── package.json
 ```
 

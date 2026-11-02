@@ -9,9 +9,16 @@ Projeto de automação de testes E2E para a loja EBAC usando **Playwright + Pyte
 - Allure (`allure-pytest` + `allure-commandline`)
 - Faker
 
-## URL base
-A suíte usa a base URL configurada em `conftest.py`:
-- `http://lojaebac.ebaconline.art.br`
+## Configuração de ambiente
+Copie `.env.example` para `.env` (não versionado) e preencha:
+
+```env
+BASE_URL=lojaebac.ebaconline.art.br   # URL base da loja (http:// é assumido se não houver esquema)
+UI_USUARIO=                           # usuário válido usado nos testes de login
+UI_SENHA=                             # senha desse usuário
+```
+
+A `BASE_URL` é lida em `conftest.py` e as credenciais em `dados/dados_login.py`. Sem essas variáveis os testes não executam.
 
 ## Estrutura do projeto
 - `testes/`: cenários de teste
@@ -24,12 +31,6 @@ A suíte usa a base URL configurada em `conftest.py`:
 ## Instalação
 ```bash
 pip install -r requirements.txt
-python -m playwright install chromium
-```
-
-Se você não tiver `requirements.txt`, use:
-```bash
-pip install pytest playwright allure-pytest Faker pytest-sugar
 python -m playwright install chromium
 ```
 

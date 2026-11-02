@@ -24,6 +24,20 @@ Este repositório tem como objetivo sintetizar, em diversas tarefas, grande part
 
 Cada pasta possui um `README` próprio com a explicação do projeto e instruções de execução.
 
+## Integração contínua (GitHub Actions)
+
+O workflow [`.github/workflows/qa.yml`](.github/workflows/qa.yml) executa manualmente (Actions > "QA - Testes automatizados" > Run workflow) um job por projeto, em sequência: Playwright, Cypress, Supertest, Pytest (API) e K6. Cada job roda mesmo que o anterior falhe, e o job "Resultado geral" falha se qualquer um deles falhar. Os relatórios ficam como artefatos para download.
+
+Secrets necessários (Settings > Secrets and variables > Actions):
+
+| Secret | Usado por |
+|---|---|
+| `BASE_URL` | URL raiz da loja, sem `/wp-json` (Playwright, Cypress, K6) |
+| `API_BASE_URL` | URL da API, com `/wp-json` (Supertest, Pytest API; vira `BASE_URL` dentro do job) |
+| `USER_EMAIL`, `USER_SENHA` | Supertest, Pytest API |
+| `UI_USUARIO`, `UI_SENHA` | Playwright |
+| `K6_USUARIOS`, `K6_SENHA` | K6 |
+
 ## Histórias de usuário cobertas
 
 | História | Funcionalidade | Gherkin | Casos de teste | Automação |
