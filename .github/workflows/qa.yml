@@ -27,8 +27,8 @@ jobs:
       UI_USUARIO: ${{ secrets.UI_USUARIO }}
       UI_SENHA: ${{ secrets.UI_SENHA }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: pip
@@ -36,7 +36,7 @@ jobs:
       - run: pip install -r requirements.txt
       - run: python -m playwright install --with-deps chromium
       - run: pytest
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
           name: playwright-allure-results
@@ -55,8 +55,8 @@ jobs:
     env:
       BASE_URL: ${{ secrets.BASE_URL }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
@@ -69,7 +69,7 @@ jobs:
         run: |
           npm run report:merge
           npm run report:html
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
           name: cypress-reports
@@ -94,15 +94,15 @@ jobs:
       USER_EMAIL: ${{ secrets.USER_EMAIL }}
       USER_SENHA: ${{ secrets.USER_SENHA }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: npm
           cache-dependency-path: "Automação - API - Supertest/package-lock.json"
       - run: npm ci
       - run: npm test
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
           name: supertest-reports
@@ -123,15 +123,15 @@ jobs:
       USER_EMAIL: ${{ secrets.USER_EMAIL }}
       USER_SENHA: ${{ secrets.USER_SENHA }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
         with:
           python-version: ${{ env.PYTHON_VERSION }}
           cache: pip
           cache-dependency-path: "Automação - API - Pytest/requirements.txt"
       - run: pip install -r requirements.txt
       - run: pytest
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
           name: pytest-api-allure-results
@@ -153,7 +153,7 @@ jobs:
       K6_USUARIOS: ${{ secrets.K6_USUARIOS }}
       K6_SENHA: ${{ secrets.K6_SENHA }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: grafana/setup-k6-action@v1
       - run: mkdir -p reports
       # Cada fluxo roda mesmo que o anterior tenha falhado.
@@ -174,7 +174,7 @@ jobs:
       - name: Login - stress
         if: ${{ !cancelled() }}
         run: npm run test:login:stress
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: ${{ !cancelled() }}
         with:
           name: k6-reports
