@@ -90,6 +90,7 @@ Total: **12 cenários**.
 ## Padrões e boas práticas
 
 - **Camada de serviço:** `utils/cupomApi.js` concentra as chamadas HTTP e mantém os testes limpos.
+- **Retentativa em erro de gateway:** requisições GET são repetidas até 3 vezes (espera de 1 s e 2 s) quando o servidor responde 502, 503 ou 504, que são instabilidades do servidor da loja e não respostas da API. POST não é repetido, pois poderia criar o cupom duas vezes.
 - **Validação de contrato:** `cupomSchema.js` (campos, tipos e valores permitidos de `discount_type`, usado em item e lista) e `erroSchema.js` (`code`, `message`, `data.status`). Se o contrato quebrar, a asserção mostra o campo e o motivo.
 - **Massa dinâmica:** payloads são funções e geram um código novo a cada uso; os testes criam os próprios dados (`beforeAll`), sem depender de cupons existentes.
 - A API devolve o `code` do cupom em minúsculas; os testes consideram isso.
