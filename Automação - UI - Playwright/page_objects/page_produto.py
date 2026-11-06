@@ -37,6 +37,9 @@ class ProdutoPage:
 
     def clicar_comprar(self):
         self.page.get_by_role("button", name="Comprar").click()
+        # Aguarda a confirmação "adicionado ao carrinho" antes de seguir; sem isso, uma navegação logo em seguida
+        # (ex.: acessar o próximo produto) pode interromper o envio e o item não entra no carrinho
+        self.page.locator(".woocommerce-message").wait_for(state="visible", timeout=15000)
     
     def clicar_ir_para_carrinho(self):
         self.page.get_by_role("link", name="Ver carrinho").click()

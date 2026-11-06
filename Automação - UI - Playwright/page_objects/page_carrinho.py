@@ -5,6 +5,7 @@ class CarrinhoPage:
 
     def extrair_dados_carrinho(self): #retorna nome_produto, valor, quantidade e valor total de cada um dos itens adicionados no carrinho
         linhas = self.page.locator("tr.cart_item")
+        linhas.first.wait_for(state="visible") # count() não espera: garante que a página do carrinho carregou antes de ler as linhas
         resultados = []
 
         for i in range(linhas.count()):
