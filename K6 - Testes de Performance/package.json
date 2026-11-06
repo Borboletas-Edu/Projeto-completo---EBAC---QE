@@ -10,9 +10,6 @@
     "test:login:spike": "dotenv -- k6 run --out web-dashboard=export=reports/login-spike.html tests/spike/loginSpike.js",
     "test:login:stress": "dotenv -- k6 run --out web-dashboard=export=reports/login-stress.html tests/stress/loginStress.js"
   },
-  "dependencies": {
-    "@faker-js/faker": "^10.4.0"
-  },
   "devDependencies": {
     "dotenv-cli": "^11.1.0"
   }

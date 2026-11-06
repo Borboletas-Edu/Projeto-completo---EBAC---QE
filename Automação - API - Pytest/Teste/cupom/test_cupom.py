@@ -1,4 +1,4 @@
-from payload_cupom import PAYLOAD_VALIDO, PAYLOAD_SEM_CODIGO, PAYLOAD_SEM_VALOR, PAYLOAD_VALOR_NEGATIVA, PAYLOAD_SEM_TIPO, PAYLOAD_SEM_DESCRICAO, PAYLOAD_DADOS_REPETIDOS 
+from payload_cupom import PAYLOAD_VALIDO, PAYLOAD_SEM_CODIGO, PAYLOAD_SEM_VALOR, PAYLOAD_VALOR_NEGATIVO, PAYLOAD_SEM_TIPO, PAYLOAD_SEM_DESCRICAO, PAYLOAD_DADOS_REPETIDOS 
 from utils import retorna_auth
 import requests
 import pytest
@@ -35,8 +35,8 @@ class TesteCupom:
         assert retorno["discount_type"] == PAYLOAD_SEM_VALOR["discount_type"]
         assert retorno["description"] == PAYLOAD_SEM_VALOR["description"]
 
-    def teste_cadastrar_cupom_com_valor_negativa(self):
-        response = requests.post(url = self.url, headers = self.auth, json = PAYLOAD_VALOR_NEGATIVA)
+    def teste_cadastrar_cupom_com_valor_negativo(self):
+        response = requests.post(url = self.url, headers = self.auth, json = PAYLOAD_VALOR_NEGATIVO)
         retorno = response.json()
         assert response.status_code == 400
         assert retorno["code"] == "coupon_invalid_amount"

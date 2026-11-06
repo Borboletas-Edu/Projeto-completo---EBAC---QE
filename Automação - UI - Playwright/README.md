@@ -1,106 +1,134 @@
 # Automação UI - Playwright (Python)
 
-Projeto de automação de testes E2E para a loja EBAC usando **Playwright + Pytest**, com organização em **Page Objects** e dados de teste separados.
+Testes end-to-end da interface web da EBAC-SHOP com **Playwright** (API síncrona) e **Pytest**, organizados em Page Objects e massa de dados separada.
+
+## Objetivo
+
+Validar os principais fluxos do cliente na loja, com cenários positivos e negativos:
+
+- Cadastro de cliente
+- Login (incluindo bloqueio após tentativas inválidas)
+- Edição dos detalhes da conta
+- Edição de endereços (entrega e faturamento)
+- Adição e remoção de produtos no carrinho
 
 ## Stack
-- Python 3.11+
-- Playwright (sync API)
-- Pytest
-- Allure (`allure-pytest` + `allure-commandline`)
-- Faker
 
-## Configuração de ambiente
+| Ferramenta | Uso |
+|---|---|
+| Playwright `1.58.0` | Automação do navegador (Chromium) |
+| Pytest `9.0.2` | Execução, fixtures, marcadores e parametrização |
+| Faker | Geração de e-mails e senhas únicos |
+| python-dotenv | Leitura do `.env` |
+| allure-pytest | Resultados para o relatório Allure |
+| pytest-sugar | Saída de terminal mais legível |
+
+## Pré-requisitos
+
+- Python 3.10+ (a pipeline usa Python 3.12)
+- pip
+- Node.js e Java (apenas para abrir o relatório Allure localmente)
+
+## Estrutura do projeto
+
+```text
+.
+├── dados/                       # massa de dados para parametrização
+│   ├── dados_cadastro.py
+│   ├── dados_detalhes_conta.py
+│   ├── dados_enderecos.py
+│   ├── dados_login.py
+│   └── dados_produtos.py
+├── page_objects/                # seletores e ações por página
+│   ├── page_carrinho.py
+│   ├── page_minha_conta.py
+│   └── page_produto.py
+├── testes/                      # cenários de teste
+│   ├── teste_cadastro.py
+│   ├── teste_carrinho.py
+│   ├── teste_detalhes_conta.py
+│   ├── teste_endereco.py
+│   └── teste_login.py
+├── conftest.py                  # fixture `page` e leitura da BASE_URL
+├── pytest.ini                   # marcadores e opções padrão
+├── requirements.txt
+├── Utils.py                     # geração de e-mail/senha e leitura de alertas
+└── .env.example
+```
+
+## Configuração do ambiente
+
 Copie `.env.example` para `.env` (não versionado) e preencha:
 
-```env
-BASE_URL=lojaebac.ebaconline.art.br   # URL base da loja (http:// é assumido se não houver esquema)
-UI_USUARIO=                           # usuário válido usado nos testes de login
-UI_SENHA=                             # senha desse usuário
-```
+| Variável | Descrição | Exemplo |
+|---|---|---|
+| `BASE_URL` | URL base da loja (`http://` é assumido se não houver esquema) | `lojaebac.ebaconline.art.br` |
+| `UI_USUARIO` | Usuário válido usado nos testes de login | — |
+| `UI_SENHA` | Senha desse usuário | — |
 
 A `BASE_URL` é lida em `conftest.py` e as credenciais em `dados/dados_login.py`. Sem essas variáveis os testes não executam.
 
-## Estrutura do projeto
-- `testes/`: cenários de teste
-- `page_objects/`: classes com ações e seletores das páginas
-- `dados/`: massa de dados para parametrização
-- `Utils.py`: utilitários compartilhados (ex.: geração de e-mail/senha e alerta)
-- `conftest.py`: fixture `page` e configuração de execução
-- `pytest.ini`: marcadores e opções padrão do Pytest
-
 ## Instalação
+
 ```bash
 pip install -r requirements.txt
 python -m playwright install chromium
 ```
 
 ## Como executar
-Rodar toda a suíte:
-```bash
-pytest
-```
 
-Rodar por marcador:
-```bash
-pytest -m login
-pytest -m cadastro
-pytest -m carrinho
-pytest -m detalhesConta
-```
+| Comando | O que faz |
+|---|---|
+| `pytest` | Executa toda a suíte |
+| `pytest -m login` | Executa por marcador (`login`, `cadastro`, `carrinho`, `detalhesConta`, `endereco`) |
+| `pytest testes/teste_carrinho.py` | Executa um arquivo |
 
-Rodar um arquivo específico:
-```bash
-pytest testes/teste_carrinho.py
-```
+## Relatórios
 
-## Relatório Allure
-O projeto já está configurado no `pytest.ini` para gerar resultados do Allure automaticamente a cada execução:
-- `--alluredir=allure-results`
-- `--clean-alluredir`
+O `pytest.ini` já gera os resultados do **Allure** a cada execução (`--alluredir=allure-results --clean-alluredir`). Para abrir:
 
-Depois de rodar os testes (`pytest`), abra o relatório com:
 ```bash
 npx allure-commandline serve allure-results
 ```
 
-Se o terminal estiver no VS Code Snap e aparecer erro de `libpthread/GLIBC_PRIVATE`, use:
+Se o terminal for o VS Code instalado via Snap e aparecer erro de `libpthread/GLIBC_PRIVATE`:
+
 ```bash
 env -u SNAP -u SNAP_NAME -u SNAP_REVISION -u SNAP_ARCH -u SNAP_COOKIE -u GTK_PATH -u GTK_MODULES npx allure-commandline serve allure-results
 ```
 
-## Marcadores disponíveis
-Definidos em `pytest.ini`:
-- `login`
-- `cadastro`
-- `carrinho`
-- `detalhesConta`
-- `endereco`
+A pasta `allure-results/` não é versionada.
 
-## Fluxos cobertos atualmente
-- Login válido, inválido e bloqueio
-- Cadastro válido, inválido e com e-mail repetido
-- Edição de detalhes da conta (dados pessoais e troca de senha)
-- Carrinho:
-  - Adicionar produto único
-  - Adicionar e remover produto
-  - Adicionar variações múltiplas de produto
-  - Cadastro de endereço válido e inválido
-  
-## Dados de teste
-As massas ficam em `dados/`:
-- `dados_login.py`
-- `dados_cadastro.py`
-- `dados_detalhes_conta.py`
-- `dados_produtos.py`
+## Cenários cobertos
 
-Exemplo (produto/carrinho):
-- `PRODUTO_UNICO = [("XS", "Blue", 1)]`
-- `VARIACOES_PRODUTO = [("S", "Green", 1), ...]`
+Total: **36 cenários** (contando cada combinação de `@pytest.mark.parametrize`).
 
-## Boas práticas adotadas
-- Reuso com Page Object Model
-- Parametrização com `@pytest.mark.parametrize`
-- Massa de dados desacoplada dos testes
-- Uso de `expect` (Playwright) e `assert` simples quando apropriado
+| Arquivo | Marcador | Cenários | Qtd. |
+|---|---|---|---|
+| `teste_cadastro.py` | `cadastro` | Cadastro válido; dados inválidos; e-mail já cadastrado | 6 |
+| `teste_login.py` | `login` | Login válido; credenciais inválidas; bloqueio após 3 tentativas | 8 |
+| `teste_detalhes_conta.py` | `detalhesConta` | Dados pessoais válidos e inválidos; troca de senha válida e inválida | 4 |
+| `teste_endereco.py` | `endereco` | Faturamento e entrega: dados válidos e campos obrigatórios ausentes | 15 |
+| `teste_carrinho.py` | `carrinho` | Adicionar produto; adicionar e remover; adicionar variações | 3 |
 
-```
+## Padrões e boas práticas
+
+- **Page Object Model:** seletores e ações isolados em `page_objects/`.
+- **Testes orientados a dados:** `@pytest.mark.parametrize` com massas em `dados/`.
+- **Massa dinâmica:** e-mails e senhas únicos (`Utils.py`); os testes de carrinho criam um usuário novo para começar com o carrinho vazio.
+- **Asserções:** `expect` do Playwright (com espera automática) e `assert` simples quando apropriado.
+
+## Integração contínua
+
+Job **E2E - Playwright** do workflow [`qa.yml`](../.github/workflows/qa.yml): instala as dependências e o Chromium, executa `pytest` e publica `allure-results` como artefato `playwright-allure-results`.
+
+| Variável no job | Secret |
+|---|---|
+| `BASE_URL` | `BASE_URL` |
+| `UI_USUARIO` | `UI_USUARIO` |
+| `UI_SENHA` | `UI_SENHA` |
+
+## Limitações e pontos de atenção
+
+- `teste_bloqueio_login` falha por um defeito da aplicação (BUG-001 no documento: o login não é bloqueado após 3 tentativas).
+- A fixture `page` abre um navegador novo por teste, o que deixa a suíte mais lenta (cerca de 4 minutos).

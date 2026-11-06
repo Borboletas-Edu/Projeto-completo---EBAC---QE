@@ -1,15 +1,39 @@
 # Gherkin - Critérios de Aceite e Casos de Teste
 
-Escrita em Gherkin (BDD, em português) das 8 histórias de usuário do projeto EBAC-SHOP, organizada em duas pastas:
+Escrita em Gherkin (BDD, em português) dos critérios de aceite e dos 49 casos de teste das 8 histórias de usuário da EBAC-SHOP.
 
-| Pasta | O que contém | Seção do documento |
-|---|---|---|
-| `Critérios de Aceite/` | Critérios de aceitação de cada história (o que a funcionalidade deve fazer) | 4.2 |
-| `Casos de Teste/` | Os 49 casos de teste, um cenário por caso (como e o que será testado) | 4.3 |
+## Objetivo
 
-Os arquivos `.feature` são documentação: não são executados por um runner Cucumber. Os testes automatizados são código (Cypress, Playwright, Supertest e Pytest), e a tag `@automatizado` indica que o caso possui um teste equivalente em código.
+- Registrar, em linguagem de negócio, o que cada funcionalidade deve fazer (critérios de aceite);
+- Detalhar como cada funcionalidade será testada (casos de teste), com rastreabilidade até a regra de negócio, o tipo de fluxo, a técnica e a situação da automação.
 
-## Histórias
+Os arquivos `.feature` são documentação: não são executados por um runner Cucumber. Os testes automatizados estão nos projetos Cypress, Playwright, Supertest e Pytest, e a tag `@automatizado` indica que o caso possui um teste equivalente em código.
+
+## Estrutura do projeto
+
+```text
+.
+├── Critérios de Aceite/         # o que a funcionalidade deve fazer (seção 2.2 do documento)
+│   ├── apiCupons.feature
+│   ├── carrinho.feature
+│   ├── catalogoProdutos.feature
+│   ├── detalhesConta.feature
+│   ├── enderecos.feature
+│   ├── login.feature
+│   ├── meusPedidos.feature
+│   └── painelMinhaConta.feature
+└── Casos de Teste/              # um cenário por caso de teste (seção 2.3 do documento)
+    ├── casosApiCupons.feature
+    ├── casosCarrinho.feature
+    ├── casosCatalogoProdutos.feature
+    ├── casosDetalhesConta.feature
+    ├── casosEnderecos.feature
+    ├── casosLogin.feature
+    ├── casosMeusPedidos.feature
+    └── casosPainelMinhaConta.feature
+```
+
+## Cenários cobertos
 
 | História | Funcionalidade | Critérios de Aceite | Casos de Teste | Casos |
 |---|---|---|---|---|
@@ -21,23 +45,22 @@ Os arquivos `.feature` são documentação: não são executados por um runner C
 | US003 | Meus pedidos | `meusPedidos.feature` | `casosMeusPedidos.feature` | 6 |
 | US004 | Endereços | `enderecos.feature` | `casosEnderecos.feature` | 6 |
 | US005 | Detalhes da conta | `detalhesConta.feature` | `casosDetalhesConta.feature` | 6 |
+| **Total** | | | | **49** |
 
-
-## Padrão
+## Padrões e boas práticas
 
 - `# language: pt` no início de cada arquivo;
 - `Contexto` para o pré-requisito comum;
 - `Esquema do Cenário` + `Exemplos` para variações de dados (partição de equivalência e valor limite);
-- Cada história possui ao menos 4 critérios de aceite.
+- Cada história possui ao menos 4 critérios de aceite;
+- O título de cada caso começa com o ID usado no documento (ex.: `CT-US0001-01 - Adicionar um produto ao carrinho`).
 
-## Tags dos casos de teste
+### Tags dos casos de teste
 
-O título de cada cenário começa com o ID do caso (ex.: `CT-US0001-01 - Adicionar um produto ao carrinho`), igual ao do documento. Cada um recebe tags para filtrar e rastrear:
-
-- `@CT-US0001-01`: ID do caso;
-- `@feliz`, `@alternativo` ou `@negativo`: tipo de fluxo;
-- `@automatizado` ou `@manual`: situação da automação (nem todos os casos estão automatizados);
-- `@RN01`...: regra de negócio validada (histórias US001 a US005);
-- `@valor-limite`, `@particao-de-equivalencia`, `@tabela-de-decisao`, `@transicao-de-estado`: técnica aplicada, quando houver.
-
-
+| Tag | Significado |
+|---|---|
+| `@CT-US0001-01` | ID do caso |
+| `@feliz`, `@alternativo`, `@negativo` | Tipo de fluxo |
+| `@automatizado`, `@manual` | Situação da automação |
+| `@RN01`... | Regra de negócio validada (histórias US001 a US005) |
+| `@valor-limite`, `@particao-de-equivalencia`, `@tabela-de-decisao`, `@transicao-de-estado` | Técnica aplicada, quando houver |

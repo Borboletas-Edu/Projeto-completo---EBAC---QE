@@ -1,49 +1,82 @@
-# Projeto: Trabalho de Conclusão - Engenheiro de Qualidade de Software
+# Trabalho de Conclusão - Engenheiro de Qualidade de Software
 
-Autor: Eduardo de Araujo Soares  
-Telefone: (11) 94551-6126  
-E-mail: eduardo.a.soares2005@gmail.com  
-LinkedIn: www.linkedin.com/in/eduardo2005
+Estratégia de qualidade e automação de testes da loja virtual **EBAC-SHOP** (http://lojaebac.ebaconline.art.br/), desenvolvidas como trabalho de conclusão do curso "Engenheiro de Qualidade de Software" da EBAC.
 
-## Sobre o projeto
+## Autor
 
-Este repositório tem como objetivo sintetizar, em diversas tarefas, grande parte dos módulos apresentados no curso de "Engenharia de Qualidade de Software", oferecido pela EBAC.
+- Eduardo de Araujo Soares
+- Telefone: (11) 94551-6126
+- E-mail: eduardo.a.soares2005@gmail.com
+- LinkedIn: www.linkedin.com/in/eduardo2005
 
-## O que este repositório contém
+## Objetivo
 
-- `Automação - API - Pytest`: implementações de automação de testes de API com Pytest.
-- `Automação - API - Supertest`: automação de testes de API (cupons) com Supertest, Jest e validação de contrato (Ajv).
-- `Automação - UI - Cypress`: testes de interface (UI) com Cypress.
-- `Automação - UI - Playwright`: testes de interface (UI) com Playwright.
-- `Documentação`: documento do trabalho de conclusão (resumo, estratégia, critérios de aceitação, 49 casos de teste, automações, integração contínua, testes de performance e referências).
-- `Gherkin`: critérios de aceite (`Critérios de Aceite`) e os 49 casos de teste (`Casos de Teste`) das 8 histórias de usuário, escritos em Gherkin.
-- `K6 - Testes de Performance`: implementações de testes de performance com k6.
+Aplicar, de ponta a ponta, o fluxo de trabalho de um Quality Engineer sobre oito histórias de usuário: critérios de aceite em Gherkin, casos de teste, automação de UI e de API, testes de performance, integração contínua e registro de bugs.
 
-Cada pasta possui um `README` próprio com a explicação do projeto e instruções de execução.
+## Stack
 
-## Integração contínua (GitHub Actions)
-
-O workflow [`.github/workflows/qa.yml`](.github/workflows/qa.yml) executa manualmente (Actions > "QA - Testes automatizados" > Run workflow) um job por projeto, em sequência: Playwright, Cypress, Supertest, Pytest (API) e K6. Cada job roda mesmo que o anterior falhe, e o job "Resultado geral" falha se qualquer um deles falhar. Os relatórios ficam como artefatos para download.
-
-Secrets necessários:
-
-| Secret | Usado por |
+| Camada | Ferramentas |
 |---|---|
-| `BASE_URL` | URL raiz da loja, sem `/wp-json` (Playwright, Cypress, K6) |
-| `API_BASE_URL` | URL da API, com `/wp-json` (Supertest, Pytest API; vira `BASE_URL` dentro do job) |
-| `USER_EMAIL`, `USER_SENHA` | Supertest, Pytest API |
-| `UI_USUARIO`, `UI_SENHA` | Playwright |
-| `K6_USUARIO`, `K6_SENHA` | K6 |
+| Critérios e casos de teste | Gherkin (BDD, em português) |
+| UI (E2E) | Cypress (JavaScript) e Playwright + Pytest (Python) |
+| API | Supertest + Jest + Ajv (JavaScript) e Pytest + Requests (Python) |
+| Performance | K6 |
+| Relatórios | Mochawesome, Allure, jest-html-reporters e K6 Web Dashboard |
+| Integração contínua | GitHub Actions |
+
+## Estrutura do repositório
+
+| Pasta | Conteúdo | Cenários |
+|---|---|---|
+| [`Gherkin`](Gherkin/README.md) | Critérios de aceite e os 49 casos de teste das 8 histórias | 49 casos |
+| [`Automação - UI - Cypress`](Automação%20-%20UI%20-%20Cypress/README.md) | Testes E2E com Cypress, incluindo setup de estoque via API | 54 |
+| [`Automação - UI - Playwright`](Automação%20-%20UI%20-%20Playwright/README.md) | Testes E2E com Playwright e Pytest | 36 |
+| [`Automação - API - Supertest`](Automação%20-%20API%20-%20Supertest/README.md) | Testes da API de cupons com validação de contrato | 12 |
+| [`Automação - API - Pytest`](Automação%20-%20API%20-%20Pytest/README.md) | Testes da API de cupons com Pytest | 7 |
+| [`K6 - Testes de Performance`](K6%20-%20Testes%20de%20Performance/README.md) | Testes de carga, pico e estresse de login e cadastro | 6 scripts |
+| `Documentação` | Trabalho de conclusão (DOCX e PDF) | — |
+| `.github/workflows` | Workflow de integração contínua (`qa.yml`) | — |
+
+Cada projeto tem um README próprio com pré-requisitos, configuração, execução, relatórios e cenários.
 
 ## Histórias de usuário cobertas
 
-| História | Funcionalidade | Gherkin | Casos de teste (documento 4.3 e `Gherkin/Casos de Teste`) | Automação |
-|---|---|---|---|---|
-| US-0001 | Adicionar item ao carrinho | sim | sim | UI (Cypress e Playwright) |
-| US-0002 | Login na plataforma | sim | sim | UI (Cypress e Playwright) e K6 |
-| US-0003 | API de cupons | sim | sim | API (Supertest e Pytest) |
-| US001 | Catálogo de produtos | sim | sim | manual |
-| US002 | Painel Minha Conta | sim | sim | manual |
-| US003 | Meus pedidos | sim | sim | manual |
-| US004 | Endereços | sim | sim | UI (Cypress e Playwright) |
-| US005 | Detalhes da conta | sim | sim | UI (Cypress e Playwright) |
+| História | Funcionalidade | Gherkin | Automação |
+|---|---|---|---|
+| US-0001 | Adicionar item ao carrinho | sim | UI (Cypress e Playwright) |
+| US-0002 | Login na plataforma | sim | UI (Cypress e Playwright) e performance (K6) |
+| US-0003 | API de cupons | sim | API (Supertest e Pytest) |
+| US001 | Catálogo de produtos | sim | manual |
+| US002 | Painel Minha Conta | sim | manual |
+| US003 | Meus pedidos | sim | manual |
+| US004 | Endereços | sim | UI (Cypress e Playwright) |
+| US005 | Detalhes da conta | sim | UI (Cypress e Playwright) |
+
+Os casos de teste estão na seção 2.3 do documento e em `Gherkin/Casos de Teste`.
+
+## Como executar
+
+1. Entre na pasta do projeto desejado;
+2. copie `.env.example` para `.env` e preencha as variáveis (os arquivos `.env` não são versionados);
+3. instale as dependências e execute conforme o README do projeto.
+
+## Integração contínua
+
+O workflow [`.github/workflows/qa.yml`](.github/workflows/qa.yml) é executado manualmente (Actions > "QA - Testes automatizados" > Run workflow) e roda um job por projeto, em sequência: Playwright → Cypress → Supertest → Pytest (API) → K6. Cada job roda mesmo que o anterior falhe, o job "Resultado geral" falha se qualquer um deles falhar e os relatórios ficam como artefatos para download.
+
+| Secret | Usado por |
+|---|---|
+| `BASE_URL` | URL raiz da loja, sem `/wp-json` (Playwright, Cypress e K6) |
+| `API_BASE_URL` | URL da API, com `/wp-json` (Supertest e Pytest; vira `BASE_URL` dentro do job) |
+| `USER_EMAIL`, `USER_SENHA` | Supertest, Pytest e Cypress (setup de estoque, como `API_USUARIO`/`API_SENHA`) |
+| `UI_USUARIO`, `UI_SENHA` | Playwright |
+| `K6_USUARIO`, `K6_SENHA` | K6 |
+
+## Limitações e pontos de atenção
+
+Bugs encontrados na aplicação e registrados na seção 2.8 do documento; os testes correspondentes falham de propósito até a correção:
+
+| Bug | Descrição | Testes afetados |
+|---|---|---|
+| BUG-001 | O login não é bloqueado após 3 tentativas com senha incorreta | Playwright: `teste_bloqueio_login` |
+| BUG-002 | Nome e sobrenome do endereço aceitam valores apenas numéricos | Cypress: cenários de nome/sobrenome inválidos em `enderecoTest.cy.js` |

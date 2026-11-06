@@ -62,7 +62,7 @@ class TesteDetalhesConta:
         expect(detalhes_conta).to_be_visible()
 
     @pytest.mark.parametrize("primeiro_nome, ultimo_nome, nome_exibicao, email", DETALHES_PESSOAIS_VALIDOS)
-    def teste_atualizar_senha_com_dados_invalido(self, primeiro_nome, ultimo_nome, nome_exibicao, email):
+    def teste_atualizar_senha_com_dados_invalidos(self, primeiro_nome, ultimo_nome, nome_exibicao, email):
         #Define os dados para atualizações de senha e valida os tratamentos para os erros
         for senha_atual, senha_nova, confirmar_senha_nova, mensagem_alerta in ATUALIZACAO_SENHA_INVALIDO:
             #Prenche dados obrigatorios

@@ -37,7 +37,7 @@ describe('Testes na adição de produtos ao carrinho', () => {
         });
     });
 
-    it('Teste - Adicionar varios  produtos no carrinho', () => {
+    it('Teste - Adicionar varios produtos no carrinho', () => {
         const nomesProdutos = [];
         const valoresProdutos = [];
 

@@ -1,191 +1,135 @@
 # Automação UI - Cypress
 
-Este repositório contém a automação de testes de interface da loja EBAC, implementada com **Cypress** e organizada em camadas para facilitar manutenção, reaproveitamento de código e evolução para CI/CD.
+Testes end-to-end da interface web da EBAC-SHOP com **Cypress** (JavaScript), organizados em camadas de dados, páginas, fluxos e especificações.
 
-## Objetivo do projeto
+## Objetivo
 
-Validar os principais fluxos de usuário da aplicação web:
+Validar os principais fluxos do cliente na loja, com cenários positivos e negativos:
 
 - Cadastro de cliente
 - Login
-- Edição de detalhes da conta
+- Edição dos detalhes da conta
 - Edição de endereços (entrega e faturamento)
 - Adição e remoção de produtos no carrinho
 
-A automação foi construída para cobrir cenários positivos e negativos, com dados controlados e geração dinâmica de credenciais quando necessário.
+## Stack
 
-## Stack e dependências
+| Ferramenta | Uso |
+|---|---|
+| Cypress `^15.14.0` | Execução dos testes E2E |
+| Faker (`@faker-js/faker`) | Geração de e-mails e senhas únicos |
+| dotenv | Leitura do `.env` no `cypress.config.js` |
+| Mochawesome (+ merge e report generator) | Relatório HTML |
 
-- Node.js
-- Cypress `^15.14.0`
-- Faker `^10.4.0`
-- Mochawesome + Merge + Report Generator
-- Mocha JUnit Reporter
+## Pré-requisitos
 
-Arquivo de referência: `package.json`.
+- Node.js 20+ (a pipeline usa Node 22)
+- npm
+- Google Chrome (opcional; a pipeline executa com `--browser chrome`)
 
-## Estrutura da pasta
+## Estrutura do projeto
 
 ```text
 .
-├── cypress.config.js
-├── package.json
-├── cypress
-│   ├── data
+├── cypress/
+│   ├── data/                    # massa de testes (válidos e inválidos)
 │   │   ├── cadastroData.js
-│   │   ├── loginData.js
+│   │   ├── carrinhoData.js
 │   │   ├── detalhesContaData.js
 │   │   ├── enderecosData.js
-│   │   └── carrinhoData.js
-│   ├── e2e
+│   │   └── loginData.js
+│   ├── e2e/                     # especificações
 │   │   ├── cadastroTest.cy.js
-│   │   ├── loginTest.cy.js
+│   │   ├── carrinhoTest.cy.js
 │   │   ├── detalhesContaTest.cy.js
 │   │   ├── enderecoTest.cy.js
-│   │   └── carrinhoTest.cy.js
-│   ├── flow
-│   │   ├── MinhaContaFlow.js
-│   │   └── DetalhesProdutoFlow.js
-│   ├── page
-│   │   ├── HomePage.js
-│   │   ├── ProdutosPage.js
+│   │   └── loginTest.cy.js
+│   ├── flow/                    # operações de negócio (combinam ações de páginas)
+│   │   ├── DetalhesProdutoFlow.js
+│   │   └── MinhaContaFlow.js
+│   ├── page/                    # Page Objects (seletores e ações)
+│   │   ├── CarrinhoPage.js
 │   │   ├── DetalhesProdutoPage.js
+│   │   ├── HomePage.js
 │   │   ├── MinhaContaPage.js
-│   │   └── CarrinhoPage.js
-│   └── support
+│   │   └── ProdutosPage.js
+│   └── support/
 │       ├── e2e.js
-│       └── Utils.js
+│       ├── estoqueApi.js        # setup de estoque via API do WooCommerce
+│       └── Utils.js             # geração de e-mail e senha únicos
+├── cypress.config.js
+├── package.json
+└── .env.example
 ```
 
-## Padrão de automação utilizado
-
-### 1) `data/` (massa de testes)
-Contém dados para cenários válidos e inválidos. Isso permite:
-
-- Separar regra de negócio dos testes
-- Escalar cenários com `forEach`
-- Facilitar manutenção de mensagens esperadas
-
-### 2) `page/` (Page Objects)
-Centraliza seletores e ações de elementos por página. Benefícios:
-
-- Menor duplicação de código
-- Facilidade para corrigir quebra de seletor
-- Maior legibilidade dos testes
-
-### 3) `flow/` (orquestração)
-Camada de fluxo que combina ações de páginas para representar operações de negócio, por exemplo:
-
-- `realizarLogin`
-- `realizarCadastro`
-- `editarDetalhesConta`
-- `editarEnderecoEntrega`
-- `adicionarProdutoCarrinho`
-
-### 4) `e2e/` (especificações)
-Contém os testes finais com asserções, mantendo foco no comportamento esperado.
-
-## Cenários implementados
-
-### Cadastro (`cadastroTest.cy.js`)
-
-- Cadastro válido
-- Cadastro com dados inválidos (matriz de casos)
-
-### Login (`loginTest.cy.js`)
-
-- Login válido
-- Senha inválida
-- Usuário inválido
-- Usuário e senha inválidos
-- Campos obrigatórios ausentes
-
-### Detalhes da conta (`detalhesContaTest.cy.js`)
-
-- Atualização de dados pessoais com sucesso
-- Alteração de senha com validação de novo login
-- Validações com dados inválidos
-
-### Endereço (`enderecoTest.cy.js`)
-
-- Atualização de endereço de entrega (sucesso e falhas)
-- Atualização de endereço de faturamento (sucesso e falhas)
-- Validação de ausência de campos e formatos inválidos
-
-### Carrinho (`carrinhoTest.cy.js`)
-
-- Adição de 1 produto e validação de total
-- Adição de múltiplos itens e soma total
-- Remoção de item e validação de carrinho vazio
-
-## Configuração atual do Cypress
-
-No `cypress.config.js`:
-
-- `baseUrl`: lida da variável de ambiente `BASE_URL` (ver "Variáveis de ambiente" abaixo)
-- Reporter: `mochawesome`
-- Diretório de saída de relatório: `cypress/reports/mocha`
-
-## Variáveis de ambiente
+## Configuração do ambiente
 
 Copie `.env.example` para `.env` (não versionado) e preencha:
 
-```env
-BASE_URL=http://lojaebac.ebaconline.art.br   # URL base da loja
-API_USUARIO=                                 # admin da API do WooCommerce (setup de estoque)
-API_SENHA=
-```
+| Variável | Descrição | Exemplo |
+|---|---|---|
+| `BASE_URL` | URL base da loja | `http://lojaebac.ebaconline.art.br` |
+| `API_USUARIO` | Usuário admin da API do WooCommerce (setup de estoque) | — |
+| `API_SENHA` | Senha desse usuário | — |
 
-O `cypress.config.js` carrega o `.env` com `dotenv` e falha com mensagem clara se `BASE_URL` não estiver definida. Na pipeline, `API_USUARIO`/`API_SENHA` vêm dos secrets `USER_EMAIL`/`USER_SENHA` (os mesmos dos testes de API).
+O `cypress.config.js` carrega o `.env` com `dotenv` e para com uma mensagem clara se `BASE_URL` não estiver definida. `API_USUARIO`/`API_SENHA` só são exigidas pelos testes de carrinho.
 
-## Setup de estoque via API (carrinho)
-Antes dos testes de carrinho, o `before()` do `carrinhoTest.cy.js` chama `cy.task('garantirEstoque')`, implementada em `cypress/support/estoqueApi.js`. Para cada variação usada em `carrinhoData.js` (produto + tamanho + cor), ela consulta a API REST do WooCommerce (`/wp-json/wc/v3`) e, se o estoque estiver abaixo do mínimo (10 ou a quantidade do teste, o que for maior), repõe para 100 unidades via `PUT /products/{id}/variations/{id}`.
-
-A task roda no lado Node do Cypress, então as credenciais de admin não vão para o navegador. Basta adicionar novas variações em `carrinhoData.js` que o setup passa a cobri-las automaticamente.
-
-## Como executar localmente
-
-1. Instale dependências:
+## Instalação
 
 ```bash
 npm install
 ```
 
-2. Executar em modo headless:
+## Como executar
 
-```bash
-npm run test
-```
-
-3. Abrir runner interativo:
-
-```bash
-npm run open
-```
-
-4. Executar e gerar relatório consolidado:
-
-```bash
-npm run test:report
-```
+| Comando | O que faz |
+|---|---|
+| `npm test` | Executa todos os testes em modo headless |
+| `npm run open` | Abre o runner interativo do Cypress |
+| `npm run test:report` | Limpa relatórios antigos, executa os testes e gera o relatório HTML |
+| `npx cypress run --spec cypress/e2e/loginTest.cy.js` | Executa uma especificação |
 
 ## Relatórios
 
-Com `npm run test:report`, o fluxo é:
+O reporter é o **Mochawesome**. Com `npm run test:report`:
 
-1. Limpa relatórios antigos
-2. Executa os testes
-3. Consolida JSONs
-4. Gera HTML
+1. limpa `cypress/reports`;
+2. executa os testes (JSONs em `cypress/reports/mocha`);
+3. consolida em `cypress/reports/report.json`;
+4. gera o HTML em `cypress/reports/html/report.html`.
 
-Saída esperada:
+As pastas `cypress/reports/` e `cypress/screenshots/` não são versionadas.
 
-- `cypress/reports/report.json`
-- `cypress/reports/html/report.html`
+## Cenários cobertos
 
-## Boas práticas aplicadas
+Total: **54 cenários** (os casos com `forEach` geram um teste por item da massa de dados).
 
-- Separação em camadas (`data`, `page`, `flow`, `e2e`)
-- Reuso de fluxo para reduzir duplicação
-- Massa dinâmica para evitar conflito de cadastro (`Utils`)
-- Cobertura de cenários positivos e negativos
+| Especificação | Cenários | Qtd. |
+|---|---|---|
+| `cadastroTest.cy.js` | Cadastro válido; sem e-mail, sem senha, sem ambos; e-mail com formato inválido (validação nativa `type="email"` do navegador) | 5 |
+| `loginTest.cy.js` | Login válido; senha errada; usuário errado; usuário e senha errados; campos obrigatórios ausentes | 7 |
+| `detalhesContaTest.cy.js` | Atualização de dados pessoais; troca de senha; dados pessoais inválidos | 11 |
+| `enderecoTest.cy.js` | Entrega: válido, campos ausentes e valores inválidos; faturamento: válido, campos ausentes e valores inválidos | 28 |
+| `carrinhoTest.cy.js` | Adicionar um produto e validar total; adicionar vários produtos e somar total; remover e restaurar item | 3 |
+
+## Padrões e boas práticas
+
+- **Camadas:** `data/` (massa), `page/` (Page Objects), `flow/` (operações de negócio, ex.: `realizarLogin`, `editarEnderecoFaturamento`, `adicionarProdutoCarrinho`) e `e2e/` (asserções).
+- **Testes orientados a dados:** cenários negativos gerados com `forEach` a partir de `data/`.
+- **Massa dinâmica:** e-mails e senhas únicos (`Utils.js`) para evitar conflito de cadastro.
+- **Setup de dados via API:** antes dos testes de carrinho, `cy.task('garantirEstoque')` (`support/estoqueApi.js`) consulta a API REST do WooCommerce (`/wp-json/wc/v3`) e, se uma variação usada em `carrinhoData.js` estiver com estoque abaixo do mínimo (10 ou a quantidade do teste), repõe para 100 unidades. A task roda no lado Node, então as credenciais de admin não chegam ao navegador.
+
+## Integração contínua
+
+Job **E2E - Cypress** do workflow [`qa.yml`](../.github/workflows/qa.yml): `npm ci`, execução no Chrome e publicação de `cypress/reports` e `cypress/screenshots` como artefato `cypress-reports`.
+
+| Variável no job | Secret |
+|---|---|
+| `BASE_URL` | `BASE_URL` |
+| `API_USUARIO` | `USER_EMAIL` |
+| `API_SENHA` | `USER_SENHA` |
+
+## Limitações e pontos de atenção
+
+- Os cenários de **nome e sobrenome inválidos** em `enderecoTest.cy.js` falham por um defeito da aplicação (BUG-002 no documento: valores numéricos são aceitos).
+- O setup de estoque altera dados reais da loja de testes (estoque das variações usadas).
