@@ -9,7 +9,7 @@
     "report:clean": "rm -rf cypress/reports",
     "report:merge": "mochawesome-merge cypress/reports/mocha/*.json > cypress/reports/report.json",
     "report:html": "marge cypress/reports/report.json -f report -o cypress/reports/html",
-    "test:report": "npm run report:clean && npm run cy:run && npm run report:merge && npm run report:html"
+    "test:report": "npm run report:clean && npm run cy:run; npm run report:merge && npm run report:html"
   },
   "author": "",
   "license": "ISC",
