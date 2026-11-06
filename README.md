@@ -16,7 +16,7 @@ Este repositório tem como objetivo sintetizar, em diversas tarefas, grande part
 - `Automação - UI - Cypress`: testes de interface (UI) com Cypress.
 - `Automação - UI - Playwright`: testes de interface (UI) com Playwright.
 - `Documentação`: documento do trabalho de conclusão (resumo, estratégia, critérios de aceitação, 49 casos de teste, automações, integração contínua, testes de performance e referências).
-- `Gherkin`: critérios de aceitação em BDD para as 8 histórias de usuário (US-0001 a US-0003 e US001 a US005).
+- `Gherkin`: critérios de aceite (`Critérios de Aceite`) e os 49 casos de teste (`Casos de Teste`) das 8 histórias de usuário, escritos em Gherkin.
 - `K6 - Testes de Performance`: implementações de testes de performance com k6.
 
 Cada pasta possui um `README` próprio com a explicação do projeto e instruções de execução.
@@ -25,7 +25,7 @@ Cada pasta possui um `README` próprio com a explicação do projeto e instruç�
 
 O workflow [`.github/workflows/qa.yml`](.github/workflows/qa.yml) executa manualmente (Actions > "QA - Testes automatizados" > Run workflow) um job por projeto, em sequência: Playwright, Cypress, Supertest, Pytest (API) e K6. Cada job roda mesmo que o anterior falhe, e o job "Resultado geral" falha se qualquer um deles falhar. Os relatórios ficam como artefatos para download.
 
-Secrets necessários (Settings > Secrets and variables > Actions):
+Secrets necessários:
 
 | Secret | Usado por |
 |---|---|
@@ -33,11 +33,11 @@ Secrets necessários (Settings > Secrets and variables > Actions):
 | `API_BASE_URL` | URL da API, com `/wp-json` (Supertest, Pytest API; vira `BASE_URL` dentro do job) |
 | `USER_EMAIL`, `USER_SENHA` | Supertest, Pytest API |
 | `UI_USUARIO`, `UI_SENHA` | Playwright |
-| `K6_USUARIOS`, `K6_SENHA` | K6 |
+| `K6_USUARIO`, `K6_SENHA` | K6 |
 
 ## Histórias de usuário cobertas
 
-| História | Funcionalidade | Gherkin | Casos de teste (documento, seção 4.3) | Automação |
+| História | Funcionalidade | Gherkin | Casos de teste (documento 4.3 e `Gherkin/Casos de Teste`) | Automação |
 |---|---|---|---|---|
 | US-0001 | Adicionar item ao carrinho | sim | sim | UI (Cypress e Playwright) |
 | US-0002 | Login na plataforma | sim | sim | UI (Cypress e Playwright) e K6 |
@@ -47,7 +47,3 @@ Secrets necessários (Settings > Secrets and variables > Actions):
 | US003 | Meus pedidos | sim | sim | manual |
 | US004 | Endereços | sim | sim | UI (Cypress e Playwright) |
 | US005 | Detalhes da conta | sim | sim | UI (Cypress e Playwright) |
-
-## Testes de performance
-
-Os testes de carga do K6 (login e cadastro) seguem o perfil do TCC: 20 usuários virtuais, 2 minutos de execução e rampup de 20 segundos.

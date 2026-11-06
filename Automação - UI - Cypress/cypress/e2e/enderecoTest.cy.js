@@ -87,8 +87,8 @@ describe('Testes nos endereços salvos para a conta', () => {
 
     enderecoFaturamentoAusenciaCampos.forEach(dados => {
         it(`Teste - ${dados.nomeTeste}`, () => {
-            MinhaContaPage.clicarEditarEnderecoEntrega()
-            MinhaContaFlow.editarEnderecoEntrega(
+            MinhaContaPage.clicarEditarEnderecoFaturamento()
+            MinhaContaFlow.editarEnderecoFaturamento(
                 dados.input.primeiroNome,
                 dados.input.ultimoNome,
                 dados.input.empresaNome,
@@ -107,8 +107,8 @@ describe('Testes nos endereços salvos para a conta', () => {
 
     enderecoFaturamentoValoresIncorretos.forEach(dados => {
         it(`Teste - ${dados.nomeTeste}`, () => {
-            MinhaContaPage.clicarEditarEnderecoEntrega()
-            MinhaContaFlow.editarEnderecoEntrega(
+            MinhaContaPage.clicarEditarEnderecoFaturamento()
+            MinhaContaFlow.editarEnderecoFaturamento(
                 dados.input.primeiroNome,
                 dados.input.ultimoNome,
                 dados.input.empresaNome,

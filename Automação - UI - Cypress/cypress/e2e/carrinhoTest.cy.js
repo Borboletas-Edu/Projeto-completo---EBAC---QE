@@ -6,6 +6,19 @@ import DetalhesProdutoPage from "../page/DetalhesProdutoPage";
 import CarrinhoPage from "../page/CarrinhoPage";
 
 describe('Testes na adição de produtos ao carrinho', () => {
+
+    before(() => {
+        // Setup via API: garante estoque para todas as variações usadas nos testes
+        const itens = [adicionar_produto_carrinho, ...adicionar_itens_diversos_carrinho].map((produto) => ({
+            slug: produto.nomeProduto.trim().toLowerCase().replace(/\s+/g, '-'),
+            tamanho: produto.input.tamanho,
+            cor: produto.input.cor,
+            minimo: Math.max(10, Number(produto.input.quantidade)),
+        })).filter((item, indice, lista) =>
+            lista.findIndex((outro) => outro.slug === item.slug && outro.tamanho === item.tamanho && outro.cor === item.cor) === indice
+        )
+        cy.task('garantirEstoque', itens).then((resultado) => cy.log(resultado.join(' | ')))
+    });
     
     beforeEach(() => {
         cy.visit('/')

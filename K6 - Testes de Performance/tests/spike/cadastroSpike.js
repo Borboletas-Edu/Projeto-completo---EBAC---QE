@@ -1,8 +1,10 @@
 import { baseUrl } from "../../config/env.js";
+import { thresholds } from "../../config/thresholds.js";
 import Request from "../../utils/Request.js";
 import { check } from "k6";
 
 export const options = {
+  thresholds: thresholds.spike,
   stages: [
     {duration: '5s', target: 10},
     {duration: '5s', target: 80},

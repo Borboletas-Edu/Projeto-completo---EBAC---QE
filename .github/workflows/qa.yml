@@ -54,6 +54,8 @@ jobs:
         working-directory: "Automação - UI - Cypress"
     env:
       BASE_URL: ${{ secrets.BASE_URL }}
+      API_USUARIO: ${{ secrets.USER_EMAIL }}
+      API_SENHA: ${{ secrets.USER_SENHA }}
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v7
@@ -150,11 +152,17 @@ jobs:
         working-directory: "K6 - Testes de Performance"
     env:
       BASE_URL: ${{ secrets.BASE_URL }}
-      K6_USUARIOS: ${{ secrets.K6_USUARIOS }}
+      K6_USUARIO: ${{ secrets.K6_USUARIO }}
       K6_SENHA: ${{ secrets.K6_SENHA }}
     steps:
       - uses: actions/checkout@v7
       - uses: grafana/setup-k6-action@v1
+      - uses: actions/setup-node@v7
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+          cache-dependency-path: "K6 - Testes de Performance/package-lock.json"
+      - run: npm ci
       - run: mkdir -p reports
       # Cada fluxo roda mesmo que o anterior tenha falhado.
       - name: Cadastro - load

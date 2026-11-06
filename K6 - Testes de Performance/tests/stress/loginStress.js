@@ -1,9 +1,11 @@
 import { baseUrl } from "../../config/env.js";
-import { usuariosLogin } from "../../data/loginPayload.js";
+import { thresholds } from "../../config/thresholds.js";
+import { usuarioLogin } from "../../data/loginPayload.js";
 import Request from "../../utils/Request.js";
 import { check } from "k6";
 
 export const options = {
+  thresholds: thresholds.stress,
   stages: [
     {duration: '20s', target: 20},
     {duration: '20s', target: 40},
@@ -16,7 +18,7 @@ export const options = {
 const url = `${baseUrl}/public/authUser`;
 
 export default function () {
-  const user = usuariosLogin()
+  const user = usuarioLogin()
 
   const res = Request.post(url, {
     email: user.email,

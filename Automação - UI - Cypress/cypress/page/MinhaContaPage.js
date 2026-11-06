@@ -47,6 +47,10 @@ class MinhaContaPage {
         cy.get('#reg_password').type(senha)
     }
     
+    campoEmailCadastro() {
+        return cy.get('#reg_email')
+    }
+
     clicarCadastrar() {
         cy.get('[name="register"]').click()
     }
@@ -192,9 +196,9 @@ class MinhaContaPage {
     }
 
     informarCepEnderecoFaturamento(CEP){
-        cy.get('[name="billing_city"]').clear()
+        cy.get('[name="billing_postcode"]').clear()
         if(CEP){
-            cy.get('[name="billing_city"]').type(CEP)
+            cy.get('[name="billing_postcode"]').type(CEP)
         }   
     }
     
@@ -206,9 +210,9 @@ class MinhaContaPage {
     }
 
     informarEmailEnderecoFaturamento(email){
-        cy.get('[name="billing_phone"]').clear()
+        cy.get('[name="billing_email"]').clear()
         if(email){
-            cy.get('[name="billing_phone"]').type(email)
+            cy.get('[name="billing_email"]').type(email)
         }   
     }
 

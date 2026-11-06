@@ -1,8 +1,10 @@
 import { baseUrl } from "../../config/env.js";
+import { thresholds } from "../../config/thresholds.js";
 import Request from "../../utils/Request.js";
 import { check } from "k6";
 
 export const options = {
+  thresholds: thresholds.stress,
   stages: [
     {duration: '20s', target: 20},
     {duration: '20s', target: 40},

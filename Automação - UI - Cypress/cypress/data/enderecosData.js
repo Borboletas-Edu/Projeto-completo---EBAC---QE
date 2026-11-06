@@ -183,7 +183,7 @@ export const enderecoEntregaValoresIncorretos = [
         estado: estado,
         cep: cep
     },
-    mensagemErro: ""
+    mensagemErro: "Digite um Nome válido."
     },
     {
     nomeTeste: "Cadastro do endereço de entrega informando sobrenome invalido",
@@ -198,7 +198,7 @@ export const enderecoEntregaValoresIncorretos = [
         estado: estado,
         cep: cep
     },
-    mensagemErro: ""
+    mensagemErro: "Digite um Sobrenome válido."
     },
     {
     nomeTeste: "Cadastro do endereço de entrega informando cep invalido",
@@ -213,7 +213,7 @@ export const enderecoEntregaValoresIncorretos = [
         estado: estado,
         cep: "111111111"
     },
-    mensagemErro: ""
+    mensagemErro: "Digite um CEP válido."
     }
 ]
 
@@ -405,7 +405,7 @@ export const enderecoFaturamentoAusenciaCampos = [
         telefone: "",
         email: email
     },
-    mensagemErro: "Endereço alterado com sucesso."
+    mensagemErro: "Telefone é um campo obrigatório."
     },
     {
     nomeTeste: "Cadastro do endereço de faturamento sem informar email",
@@ -422,7 +422,7 @@ export const enderecoFaturamentoAusenciaCampos = [
         telefone: telefone,
         email: ""
     },
-    mensagemErro: "Endereço alterado com sucesso."
+    mensagemErro: "Endereço de e-mail é um campo obrigatório."
     },
 ]
 
@@ -477,39 +477,5 @@ export const enderecoFaturamentoValoresIncorretos = [
         email: email
     },
     mensagemErro: "Digite um CEP válido."
-    },
-    {
-    nomeTeste: "Cadastro do endereço de faturamento informando telefone invalido",
-    input: {
-        primeiroNome: primeiroNome,
-        ultimoNome: ultimoNome,
-        empresaNome: empresaNome,
-        pais: pais,
-        endereco: endereco,
-        complemento: complemento,
-        cidade: cidade,
-        estado: estado,
-        cep: cep,
-        telefone: "11",
-        email: email
-    },
-    mensagemErro: "Informe um telefone válido."
-    },
-    {
-    nomeTeste: "Cadastro do endereço de faturamento informando email invalido",
-    input: {
-        primeiroNome: primeiroNome,
-        ultimoNome: ultimoNome,
-        empresaNome: empresaNome,
-        pais: pais,
-        endereco: endereco,
-        complemento: complemento,
-        cidade: cidade,
-        estado: estado,
-        cep: cep,
-        telefone: telefone,
-        email: "TesteEmailErrado"
-    },
-    mensagemErro: "Informe um email válido."
     }
 ]

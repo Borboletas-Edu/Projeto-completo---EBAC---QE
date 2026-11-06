@@ -12,5 +12,5 @@ function normalizarBaseUrl(url) {
 }
 
 export const baseUrl = normalizarBaseUrl(obrigatoria("BASE_URL"));
-export const usuarios = obrigatoria("K6_USUARIOS").split(",").map((u) => u.trim()).filter(Boolean);
+export const usuario = obrigatoria("K6_USUARIO");
 export const senha = obrigatoria("K6_SENHA");

@@ -3,14 +3,17 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test:cadastro:load": "k6 run --out web-dashboard=export=reports/cadastro-load.html tests/load/cadastroLoad.js",
-    "test:cadastro:spike": "k6 run --out web-dashboard=export=reports/cadastro-spike.html tests/spike/cadastroSpike.js",
-    "test:cadastro:stress": "k6 run --out web-dashboard=export=reports/cadastro-stress.html tests/stress/cadastroStress.js",
-    "test:login:load": "k6 run --out web-dashboard=export=reports/login-load.html tests/load/loginLoad.js",
-    "test:login:spike": "k6 run --out web-dashboard=export=reports/login-spike.html tests/spike/loginSpike.js",
-    "test:login:stress": "k6 run --out web-dashboard=export=reports/login-stress.html tests/stress/loginStress.js"
+    "test:cadastro:load": "dotenv -- k6 run --out web-dashboard=export=reports/cadastro-load.html tests/load/cadastroLoad.js",
+    "test:cadastro:spike": "dotenv -- k6 run --out web-dashboard=export=reports/cadastro-spike.html tests/spike/cadastroSpike.js",
+    "test:cadastro:stress": "dotenv -- k6 run --out web-dashboard=export=reports/cadastro-stress.html tests/stress/cadastroStress.js",
+    "test:login:load": "dotenv -- k6 run --out web-dashboard=export=reports/login-load.html tests/load/loginLoad.js",
+    "test:login:spike": "dotenv -- k6 run --out web-dashboard=export=reports/login-spike.html tests/spike/loginSpike.js",
+    "test:login:stress": "dotenv -- k6 run --out web-dashboard=export=reports/login-stress.html tests/stress/loginStress.js"
   },
   "dependencies": {
     "@faker-js/faker": "^10.4.0"
+  },
+  "devDependencies": {
+    "dotenv-cli": "^11.1.0"
   }
 }

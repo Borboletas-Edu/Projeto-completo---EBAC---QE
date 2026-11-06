@@ -7,6 +7,7 @@ Projeto de testes de performance para a loja EBAC usando **K6**, cobrindo os flu
 - Node.js (execução via `npm run`)
 - K6 Web Dashboard (relatório HTML nativo do K6)
 - Faker (`@faker-js/faker`)
+- dotenv-cli (carrega o `.env` nos scripts do `npm run`)
 
 ## Variáveis de ambiente
 Os scripts leem as variáveis via `config/env.js` (`__ENV`). Veja `.env.example`:
@@ -14,21 +15,24 @@ Os scripts leem as variáveis via `config/env.js` (`__ENV`). Veja `.env.example`
 | Variável | Uso |
 |---|---|
 | `BASE_URL` | URL base da loja (ex.: `http://lojaebac.ebaconline.art.br`) |
-| `K6_USUARIOS` | usuários de login separados por vírgula (usados em rodízio) |
-| `K6_SENHA` | senha dos usuários acima |
+| `K6_USUARIO` | usuário de login (ex.: `user1_ebac`) |
+| `K6_SENHA` | senha do usuário acima |
 
-O K6 não carrega `.env` sozinho. Localmente, exporte as variáveis antes de rodar:
+O K6 não carrega `.env` sozinho, por isso os scripts do `npm run` usam o [`dotenv-cli`](https://www.npmjs.com/package/dotenv-cli) (`dotenv -- k6 run ...`) para carregar o `.env` antes de chamar o `k6`. Basta instalar as dependências, copiar o `.env.example` para `.env`, preencher e rodar:
 ```bash
-set -a; source .env; set +a
+npm install
+cp .env.example .env
 npm run test:login:load
 ```
+Na pipeline não existe `.env`: as variáveis vêm dos secrets do GitHub.
 
 ## Estrutura
 
 ```text
 .
 ├── config/
-│   └── env.js
+│   ├── env.js
+│   └── thresholds.js
 ├── data/
 │   └── loginPayload.js
 ├── tests/
@@ -89,7 +93,7 @@ A pasta `reports/` está no `.gitignore`.
 
 ## Padrão dos testes
 
-- `data/`: massa de dados reutilizável (ex.: usuários de login)
+- `data/`: massa de dados reutilizável (ex.: usuário de login)
 - `utils/Request.js`: camada simples para métodos HTTP (`get`, `post`, `put`)
 - `tests/`: cenários por tipo de carga:
   - `load`: subida gradual e estabilização (perfil exigido no TCC: 20 usuários virtuais, 2 minutos no total e rampup de 20 segundos)
@@ -97,8 +101,19 @@ A pasta `reports/` está no `.gitignore`.
   - `stress`: carga acima do normal para achar limite
 
 
+## Thresholds (critérios de aceite)
+Definidos em `config/thresholds.js` e aplicados em todos os cenários. Se algum limite for violado, o K6 encerra com código `99` e a execução (local ou na pipeline) falha.
+
+| Tipo | `http_req_failed` | `http_req_duration` | `checks` |
+|---|---|---|---|
+| `load` | < 5% | p(95) < 8s e p(99) < 10s | > 95% |
+| `spike` | < 10% | p(95) < 15s | > 90% |
+| `stress` | < 10% | p(95) < 15s | > 90% |
+
+Os limites foram calibrados com base nas execuções reais contra a loja (no load com 20 VUs, p(95) ≈ 6,6s e p(99) ≈ 7,6s).
+
 ## Boas práticas usadas
 
-- Reuso de payload por função (`usuariosLogin`)
+- Reuso de payload por função (`usuarioLogin`)
 - Uso de `check()` para validar status e mensagem de resposta
 - Geração de dados dinâmicos para cadastro, evitando conflito de usuário já existente

@@ -1,5 +1,5 @@
-import { usuarios, senha } from "../config/env.js";
+import { usuario, senha } from "../config/env.js";
 
-export function  usuariosLogin(){
-    return { email: usuarios[__ITER % usuarios.length], password: senha }
+export function usuarioLogin() {
+    return { email: usuario, password: senha }
 }

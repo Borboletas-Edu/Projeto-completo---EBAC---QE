@@ -1,8 +1,10 @@
 import { baseUrl } from "../../config/env.js";
+import { thresholds } from "../../config/thresholds.js";
 import Request from "../../utils/Request.js";
 import { check } from "k6";
 
 export const options = {
+  thresholds: thresholds.load,
   // Requisito do TCC: 20 usuários virtuais, 2 minutos de execução e rampup de 20 segundos
   stages: [
     {duration: '20s', target: 20},

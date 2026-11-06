@@ -132,9 +132,16 @@ Copie `.env.example` para `.env` (não versionado) e preencha:
 
 ```env
 BASE_URL=http://lojaebac.ebaconline.art.br   # URL base da loja
+API_USUARIO=                                 # admin da API do WooCommerce (setup de estoque)
+API_SENHA=
 ```
 
-O `cypress.config.js` carrega o `.env` com `dotenv` e falha com mensagem clara se `BASE_URL` não estiver definida.
+O `cypress.config.js` carrega o `.env` com `dotenv` e falha com mensagem clara se `BASE_URL` não estiver definida. Na pipeline, `API_USUARIO`/`API_SENHA` vêm dos secrets `USER_EMAIL`/`USER_SENHA` (os mesmos dos testes de API).
+
+## Setup de estoque via API (carrinho)
+Antes dos testes de carrinho, o `before()` do `carrinhoTest.cy.js` chama `cy.task('garantirEstoque')`, implementada em `cypress/support/estoqueApi.js`. Para cada variação usada em `carrinhoData.js` (produto + tamanho + cor), ela consulta a API REST do WooCommerce (`/wp-json/wc/v3`) e, se o estoque estiver abaixo do mínimo (10 ou a quantidade do teste, o que for maior), repõe para 100 unidades via `PUT /products/{id}/variations/{id}`.
+
+A task roda no lado Node do Cypress, então as credenciais de admin não vão para o navegador. Basta adicionar novas variações em `carrinhoData.js` que o setup passa a cobri-las automaticamente.
 
 ## Como executar localmente
 

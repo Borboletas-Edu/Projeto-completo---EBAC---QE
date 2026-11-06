@@ -1,29 +1,43 @@
-# Gherkin - Critérios de Aceitação
+# Gherkin - Critérios de Aceite e Casos de Teste
 
-Critérios de aceitação em linguagem Gherkin (BDD, em português) para as histórias de usuário do projeto EBAC-SHOP.
+Escrita em Gherkin (BDD, em português) das 8 histórias de usuário do projeto EBAC-SHOP, organizada em duas pastas:
 
-## Arquivos
-
-| Arquivo | História | Funcionalidade |
+| Pasta | O que contém | Seção do documento |
 |---|---|---|
-| `carrinho.feature` | US-0001 | Adicionar item ao carrinho |
-| `login.feature` | US-0002 | Login na plataforma |
-| `apiCupons.feature` | US-0003 | API de cupons |
-| `catalogoProdutos.feature` | US001 | Catálogo de produtos |
-| `painelMinhaConta.feature` | US002 | Painel Minha Conta |
-| `meusPedidos.feature` | US003 | Meus pedidos |
-| `enderecos.feature` | US004 | Endereços |
-| `detalhesConta.feature` | US005 | Detalhes da conta |
+| `Critérios de Aceite/` | Critérios de aceitação de cada história (o que a funcionalidade deve fazer) | 4.2 |
+| `Casos de Teste/` | Os 49 casos de teste, um cenário por caso (como e o que será testado) | 4.3 |
 
-As histórias US001 a US005 foram escritas para este trabalho, com as regras de negócio (RN01, RN02...) descritas no documento do TCC. Cada cenário recebe a tag da regra que valida (ex.: `@RN04`). Cada arquivo traz o formato **Como / Quero / Para** no cabeçalho.
+Os arquivos `.feature` são documentação: não são executados por um runner Cucumber. Os testes automatizados são código (Cypress, Playwright, Supertest e Pytest), e a tag `@automatizado` indica que o caso possui um teste equivalente em código.
+
+## Histórias
+
+| História | Funcionalidade | Critérios de Aceite | Casos de Teste | Casos |
+|---|---|---|---|---|
+| US-0001 | Adicionar item ao carrinho | `carrinho.feature` | `casosCarrinho.feature` | 6 |
+| US-0002 | Login na plataforma | `login.feature` | `casosLogin.feature` | 6 |
+| US-0003 | API de cupons | `apiCupons.feature` | `casosApiCupons.feature` | 8 |
+| US001 | Catálogo de produtos | `catalogoProdutos.feature` | `casosCatalogoProdutos.feature` | 6 |
+| US002 | Painel Minha Conta | `painelMinhaConta.feature` | `casosPainelMinhaConta.feature` | 5 |
+| US003 | Meus pedidos | `meusPedidos.feature` | `casosMeusPedidos.feature` | 6 |
+| US004 | Endereços | `enderecos.feature` | `casosEnderecos.feature` | 6 |
+| US005 | Detalhes da conta | `detalhesConta.feature` | `casosDetalhesConta.feature` | 6 |
+
 
 ## Padrão
 
 - `# language: pt` no início de cada arquivo;
 - `Contexto` para o pré-requisito comum;
 - `Esquema do Cenário` + `Exemplos` para variações de dados (partição de equivalência e valor limite);
-- Cada história possui ao menos 4 cenários, incluindo caminho feliz, alternativo e negativo.
+- Cada história possui ao menos 4 critérios de aceite.
 
-## Observação
+## Tags dos casos de teste
 
-As mensagens de erro de Endereços e Detalhes da conta seguem as regras RN01 do documento e os testes de UI. Os cenários de Catálogo, Painel e Meus Pedidos descrevem o comportamento esperado e devem ser confirmados na execução manual.
+O título de cada cenário começa com o ID do caso (ex.: `CT-US0001-01 - Adicionar um produto ao carrinho`), igual ao do documento. Cada um recebe tags para filtrar e rastrear:
+
+- `@CT-US0001-01`: ID do caso;
+- `@feliz`, `@alternativo` ou `@negativo`: tipo de fluxo;
+- `@automatizado` ou `@manual`: situação da automação (nem todos os casos estão automatizados);
+- `@RN01`...: regra de negócio validada (histórias US001 a US005);
+- `@valor-limite`, `@particao-de-equivalencia`, `@tabela-de-decisao`, `@transicao-de-estado`: técnica aplicada, quando houver.
+
+
