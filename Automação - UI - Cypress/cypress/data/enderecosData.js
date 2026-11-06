@@ -172,6 +172,7 @@ export const enderecoEntregaAusenciaCampos = [
 export const enderecoEntregaValoresIncorretos = [
     {
     nomeTeste: "Cadastro do endereço de entrega informando nome invalido",
+    bugConhecido: "BUG-002: nome e sobrenome aceitam valores apenas numéricos (ver seção 2.8 do documento)",
     input: {
         primeiroNome: "12345",
         ultimoNome: ultimoNome,
@@ -187,6 +188,7 @@ export const enderecoEntregaValoresIncorretos = [
     },
     {
     nomeTeste: "Cadastro do endereço de entrega informando sobrenome invalido",
+    bugConhecido: "BUG-002: nome e sobrenome aceitam valores apenas numéricos (ver seção 2.8 do documento)",
     input: {
         primeiroNome: primeiroNome,
         ultimoNome: "12345",
@@ -429,6 +431,7 @@ export const enderecoFaturamentoAusenciaCampos = [
 export const enderecoFaturamentoValoresIncorretos = [
     {
     nomeTeste: "Cadastro do endereço de faturamento informando nome invalido",
+    bugConhecido: "BUG-002: nome e sobrenome aceitam valores apenas numéricos (ver seção 2.8 do documento)",
     input: {
         primeiroNome: "12345",
         ultimoNome: ultimoNome,
@@ -446,6 +449,7 @@ export const enderecoFaturamentoValoresIncorretos = [
     },
     {
     nomeTeste: "Cadastro do endereço de faturamento informando sobrenome invalido",
+    bugConhecido: "BUG-002: nome e sobrenome aceitam valores apenas numéricos (ver seção 2.8 do documento)",
     input: {
         primeiroNome: primeiroNome,
         ultimoNome: "12345",

@@ -130,5 +130,5 @@ Job **E2E - Playwright** do workflow [`qa.yml`](../.github/workflows/qa.yml): in
 
 ## Limitações e pontos de atenção
 
-- `teste_bloqueio_login` falha por um defeito da aplicação (BUG-001 no documento: o login não é bloqueado após 3 tentativas).
+- `teste_bloqueio_login` é pulado (`@pytest.mark.skip`) por um defeito da aplicação (BUG-001 no documento: o login não é bloqueado após 3 tentativas). Para reativá-lo, basta remover o marcador.
 - A fixture `page` abre um navegador novo por teste, o que deixa a suíte mais lenta (cerca de 4 minutos).

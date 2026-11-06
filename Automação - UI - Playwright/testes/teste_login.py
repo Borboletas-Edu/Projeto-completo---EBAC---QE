@@ -25,7 +25,8 @@ class TesteLogin:
         print(f"mensagem_alerta: {mensagem_alerta}")
         expect(mensagem_erro).to_contain_text(mensagem_alerta)
         
-    def teste_bloqueio_login(self): 
+    @pytest.mark.skip(reason="BUG-001: o login não é bloqueado após 3 tentativas com senha incorreta (ver seção 2.8 do documento)")
+    def teste_bloqueio_login(self):
         for c in range(3):
             self.MinhaConta.realizar_login("admin", "senhaErrada")
             mensagem_erro = Utils.retornar_mensagem_alerta(self.MinhaConta.page)

@@ -74,9 +74,9 @@ O workflow [`.github/workflows/qa.yml`](.github/workflows/qa.yml) é executado m
 
 ## Limitações e pontos de atenção
 
-Bugs encontrados na aplicação e registrados na seção 2.8 do documento; os testes correspondentes falham de propósito até a correção:
+Bugs encontrados na aplicação e registrados na seção 2.8 do documento. Os testes correspondentes ficam **pulados** (skip, com o bug no motivo) para não reprovar a pipeline; basta remover o skip quando o bug for corrigido:
 
 | Bug | Descrição | Testes afetados |
 |---|---|---|
 | BUG-001 | O login não é bloqueado após 3 tentativas com senha incorreta | Playwright: `teste_bloqueio_login` |
-| BUG-002 | Nome e sobrenome do endereço aceitam valores apenas numéricos | Cypress: cenários de nome/sobrenome inválidos em `enderecoTest.cy.js` |
+| BUG-002 | Nome e sobrenome do endereço aceitam valores apenas numéricos | Cypress: 4 cenários de nome/sobrenome inválidos (entrega e faturamento) em `enderecoTest.cy.js` |

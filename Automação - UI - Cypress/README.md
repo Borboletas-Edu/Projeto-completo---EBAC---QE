@@ -131,5 +131,5 @@ Job **E2E - Cypress** do workflow [`qa.yml`](../.github/workflows/qa.yml): `npm 
 
 ## Limitações e pontos de atenção
 
-- Os cenários de **nome e sobrenome inválidos** em `enderecoTest.cy.js` falham por um defeito da aplicação (BUG-002 no documento: valores numéricos são aceitos).
+- Os 4 cenários de **nome e sobrenome inválidos** em `enderecoTest.cy.js` são pulados (`it.skip`) por um defeito da aplicação (BUG-002 no documento: valores numéricos são aceitos). Eles são marcados com o campo `bugConhecido` em `enderecosData.js`; para reativá-los, basta remover esse campo.
 - O setup de estoque altera dados reais da loja de testes (estoque das variações usadas).
