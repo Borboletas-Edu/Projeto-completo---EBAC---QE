@@ -1,5 +1,7 @@
 /// <reference types = 'cypress'/>
 
+const TIMEOUT_AREA_LOGADA = 20000
+
 class MinhaContaPage {
 
 //extra
@@ -13,13 +15,14 @@ class MinhaContaPage {
     }
 
 //Acessar modais
+// O menu só aparece depois que o cadastro/login termina; o servidor de testes às vezes demora mais que o timeout padrão (4 s).
 
     clicarDetalhesConta(){
-            cy.get('.woocommerce-MyAccount-navigation-link--edit-account > a').click()
+            cy.get('.woocommerce-MyAccount-navigation-link--edit-account > a', { timeout: TIMEOUT_AREA_LOGADA }).click()
         }
 
     clicarEnderecos(){
-        cy.get('.woocommerce-MyAccount-navigation-link--edit-address > a').click()
+        cy.get('.woocommerce-MyAccount-navigation-link--edit-address > a', { timeout: TIMEOUT_AREA_LOGADA }).click()
     }
 
 //login
